@@ -19,4 +19,10 @@ data class RekapData(
     val status: String
 )
 
+data class DetailLog(
+    val waktu: String,
+    val nomor_rumah: String,
+    val status: String
+)
+
 

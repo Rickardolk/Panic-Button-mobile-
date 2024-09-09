@@ -1,6 +1,7 @@
 package com.example.panicbutton.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,11 +24,13 @@ import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 
 @Composable
 fun Monitoring(
     modifier: Modifier = Modifier,
-    viewModel: ViewModel
+    viewModel: ViewModel,
+    navController: NavController
 ) {
     val monitoringData by viewModel.monitoringData.observeAsState(emptyList())
 
@@ -51,6 +54,10 @@ fun Monitoring(
 
         monitoringData.forEach { log ->
             Column(
+                modifier
+                    .clickable {
+                        viewModel.detailLog(log.nomor_rumah)
+                        navController.navigate("detail_log_screen/${log.nomor_rumah}")},
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(

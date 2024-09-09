@@ -20,12 +20,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.R
 import com.example.panicbutton.component.Monitoring
 
 @Composable
 fun ScreenMonitor(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     Column(
         modifier
@@ -47,7 +50,10 @@ fun ScreenMonitor(
             )
         }
         Spacer(modifier.height(16.dp))
-        Monitoring(viewModel = viewModel())
+        Monitoring(
+            viewModel = viewModel(),
+            navController = navController
+        )
     }
 }
 

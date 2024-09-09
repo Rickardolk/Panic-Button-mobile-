@@ -14,11 +14,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.api.ApiService
 import com.example.panicbutton.api.RetrofitClient
-import com.example.panicbutton.api.RetrofitClientWeb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,10 +30,11 @@ import java.io.IOException
 
 class ViewModel : ViewModel() {
     private val apiService: ApiService = RetrofitClient.create()
-    private val apiServiceWeb: ApiService = RetrofitClientWeb.create()
     private val _monitoringData = MutableLiveData<List<MonitorData>>()
+    private val _detailLogData = MutableLiveData<List<DetailLog>>()
 
     val monitoringData: LiveData<List<MonitorData>> = _monitoringData
+    val detailLogData: LiveData<List<DetailLog>> = _detailLogData
     val rekapData = MutableLiveData<List<RekapData>>()
     val isLoading = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
@@ -136,7 +138,7 @@ class ViewModel : ViewModel() {
 
     // function utk monitoring
     fun monitoring() {
-        val call = apiServiceWeb.getMonitoringData()
+        val call = apiService.getMonitoringData()
 
         call.enqueue(object : Callback<List<MonitorData>> {
             override fun onResponse(call: Call<List<MonitorData>>, response: Response<List<MonitorData>>) {
@@ -155,7 +157,7 @@ class ViewModel : ViewModel() {
     // fun data rekap
     fun fetchRekapData() {
         isLoading.value = true
-        val call = apiServiceWeb.getRekapData()
+        val call = apiService.getRekapData()
 
         call.enqueue(object : Callback<List<RekapData>> {
             override fun onResponse(
@@ -164,14 +166,38 @@ class ViewModel : ViewModel() {
             ) {
                 isLoading.value = false
                 if (response.isSuccessful) {
+                    Log.d("DataRekap", "Response: ${response.body()}")
+                    Log.d("DataRekap", "Raw response: ${response.raw()}")
                     rekapData.value = response.body()
                 } else {
                     errorMessage.value = "GAgal mendapatkan data"
                 }
             }
             override fun onFailure(call: Call<List<RekapData>>, t: Throwable) {
+                Log.e("DataRekap", "gagal; mengambil data", t)
                 isLoading.value = false
                 errorMessage.value = t.message
+            }
+        })
+    }
+
+    fun detailLog(nomorRumah: String) {
+        val call = apiService.getDetailLog(nomorRumah)
+
+        call.enqueue(object : Callback<List<DetailLog>>{
+            override fun onResponse(
+                call: Call<List<DetailLog>>,
+                response: Response<List<DetailLog>>
+            ) {
+                if (response.isSuccessful) {
+                    _detailLogData.value = response.body()
+                } else {
+                    _detailLogData.value = emptyList()
+                }
+            }
+
+            override fun onFailure(call: Call<List<DetailLog>>, t: Throwable) {
+                _detailLogData.value = emptyList()
             }
         })
     }
