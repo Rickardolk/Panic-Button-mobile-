@@ -2,10 +2,16 @@ package com.example.panicbutton.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.SnackbarHostState
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -194,7 +200,6 @@ class ViewModel : ViewModel() {
                     _detailLogData.value = emptyList()
                 }
             }
-
             override fun onFailure(call: Call<List<DetailLog>>, t: Throwable) {
                 _detailLogData.value = emptyList()
             }
@@ -213,12 +218,37 @@ class ViewModel : ViewModel() {
                     errorMessage.value = "Error retrieving data"
                 }
             }
-
             override fun onFailure(call: Call<List<RekapData>>, t: Throwable) {
                 errorMessage.value = t.message
             }
         })
     }
+
+    //fun utk notification
+//    fun notification(context: Context, title: String, description: String) {
+//        val channelId = "toggle_device_channel"
+//        val notificationId = 1
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channelName = "Toggle Device Notifications"
+//            val importance = NotificationManager.IMPORTANCE_DEFAULT
+//            val channel = NotificationChannel(channelId, channelName, importance)
+//            val notificationManager: NotificationManager =
+//                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            notificationManager.createNotificationChannel(channel)
+//        }
+//
+//        // Build the notification with title and description
+//        val notificationBuilder = NotificationCompat.Builder(context, channelId)
+//            .setSmallIcon(android.R.drawable.ic_dialog_info)
+//            .setContentTitle(title)
+//            .setContentText(description)
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//
+//        with(NotificationManagerCompat.from(context)) {
+//            notify(notificationId, notificationBuilder.build())
+//        }
+//    }
 }
 
 
@@ -250,7 +280,6 @@ class PanicButton (application: Application) : AndroidViewModel(application) {
                 CoroutineScope(Dispatchers.Main).launch {
                     snackbarHostState.showSnackbar("Error: ${e.message}")
                     onLoadingChange(false)
-
                 }
             }
 
@@ -265,7 +294,6 @@ class PanicButton (application: Application) : AndroidViewModel(application) {
                         snackbarHostState.showSnackbar("Failed to toggle device: ${response.message}")
                     }
                     onLoadingChange(false)
-
                 }
             }
         })

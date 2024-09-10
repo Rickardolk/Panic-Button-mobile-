@@ -1,6 +1,5 @@
 package com.example.panicbutton.screen
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +13,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.panicbutton.component.ButtonLogOut
 import com.example.panicbutton.component.Rekap5
+import com.example.panicbutton.viewmodel.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
 fun Dashboard(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ViewModel = viewModel()
 ) {
     Column(
         modifier
@@ -30,7 +32,7 @@ fun Dashboard(
     ) {
         ButtonLogOut(navController = navController)
         ScreenMonitor(navController = navController)
-        Rekap5()
+        Rekap5(modifier, viewModel)
         TextButton(
             onClick = { navController.navigate("data_rekap") }) {
             Text(

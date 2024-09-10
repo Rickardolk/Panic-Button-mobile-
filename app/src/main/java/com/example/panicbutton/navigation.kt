@@ -13,9 +13,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.screen.Dashboard
 import com.example.panicbutton.screen.DataRekapScreen
 import com.example.panicbutton.screen.DetailLogScreen
+import com.example.panicbutton.component.MainFunction
 import com.example.panicbutton.screen.HomeScreen
 import com.example.panicbutton.screen.LoginScreen
-import com.example.panicbutton.component.MainFunction
 import com.example.panicbutton.screen.RegisterScreen
 import com.example.panicbutton.viewmodel.ViewModel
 
@@ -45,21 +45,42 @@ fun MyApp() {
                 sharedPreferences.edit().putBoolean("OnBoardingShown", true).apply()
             }
         }
-        composable("login") { LoginScreen(navController = navController) }
-        composable("register") { RegisterScreen(navController = navController) }
-        composable("admin"){ Dashboard(navController = navController)}
-        composable("data_rekap") { DataRekapScreen(modifier = Modifier, viewModel) }
+
+        composable("login") {
+            LoginScreen(
+                navController = navController
+            )
+        }
+        composable("register") {
+            RegisterScreen(
+                navController = navController
+            )
+        }
+        composable("admin"){
+            Dashboard(
+                navController = navController
+            )
+        }
+        composable("data_rekap") {
+            DataRekapScreen(
+                modifier = Modifier,
+                viewModel,
+                navController = navController
+            )
+        }
         composable("home") {
             HomeScreen(
                 snackbarHostState = SnackbarHostState(),
                 navController = navController,
-                modifier = Modifier,
                 context = context
             )
         }
         composable("detail_log_screen/{nomorRumah}") {backStackEntry ->
             val nomorRumah = backStackEntry.arguments?.getString("nomorRumah")
-            DetailLogScreen(nomorRumah = nomorRumah ?:"", viewModel = viewModel)
+            DetailLogScreen(
+                nomorRumah = nomorRumah ?:"",
+                viewModel = viewModel
+            )
         }
     }
 }

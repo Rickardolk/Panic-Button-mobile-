@@ -85,7 +85,7 @@ fun ToggleSwitch(
                         contentDescription = "on mode",
                         modifier = Modifier
                             .padding(5.dp),
-                        tint = Color.Black
+                        tint = Color.White
                     )
                 } else {
                     Icon(
@@ -101,9 +101,9 @@ fun ToggleSwitch(
             colors = SwitchDefaults.colors(
                 checkedTrackColor = colorResource(id = R.color.pudar),
                 uncheckedTrackColor = colorResource(id = R.color.merah_pudar),
-                uncheckedBorderColor = colorResource(id = R.color.merah),
+                uncheckedBorderColor = colorResource(id = R.color.primary),
                 checkedThumbColor = colorResource(id = R.color.biru),
-                uncheckedThumbColor = colorResource(id = R.color.merah),
+                uncheckedThumbColor = colorResource(id = R.color.primary),
                 checkedBorderColor = colorResource(id = R.color.biru)
             ),
             modifier = Modifier

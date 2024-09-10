@@ -74,7 +74,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
-    implementation ("androidx.compose.material:material:1.5.0")
+//    implementation ("androidx.compose.material:material:1.5.0")
     implementation ("androidx.navigation:navigation-compose:2.7.0")
     implementation ("org.json:json:20210307")
     implementation ("com.google.code.gson:gson:2.8.9")

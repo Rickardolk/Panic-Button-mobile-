@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -16,12 +16,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.DataItem
 
 @Composable
 fun DataRekapScreen(
     modifier: Modifier,
-    viewModel: ViewModel = viewModel()
+    viewModel: ViewModel = viewModel(),
+    navController: NavController
 ) {
     val rekapData by viewModel.rekapData.observeAsState(emptyList())
     val isLoading by viewModel.isLoading.observeAsState(false)
@@ -43,7 +46,7 @@ fun DataRekapScreen(
         } else {
             LazyColumn {
                 items(rekapData) { data ->
-                    DataItem(modifier, data)
+                    DataItem(modifier, data, navController = navController)
                 }
             }
         }

@@ -11,4 +11,8 @@
     <color name="merah">#80FF0000</color>
     <color name="biru">#8056B0F8</color>
     <color name="merah_pudar">#26FF0000</color>
+    <color name="primary">#E7706F</color>
+    <color name="font">#BA4661</color>
+    <color name="font2">#373335</color>
+    <color name="background">#D9D9D9</color>
 </resources>
