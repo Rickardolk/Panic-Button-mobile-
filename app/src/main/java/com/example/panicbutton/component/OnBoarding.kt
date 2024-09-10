@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.component
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -173,7 +173,6 @@ fun OnBoardingPager(
 @Composable
 fun loaderIntro(modifier: Modifier = Modifier, image: Int) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(image))
-    val progress by animateLottieCompositionAsState(composition)
 
     LottieAnimation(
         composition = composition,

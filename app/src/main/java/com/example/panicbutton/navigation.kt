@@ -15,7 +15,7 @@ import com.example.panicbutton.screen.DataRekapScreen
 import com.example.panicbutton.screen.DetailLogScreen
 import com.example.panicbutton.screen.HomeScreen
 import com.example.panicbutton.screen.LoginScreen
-import com.example.panicbutton.screen.MainFunction
+import com.example.panicbutton.component.MainFunction
 import com.example.panicbutton.screen.RegisterScreen
 import com.example.panicbutton.viewmodel.ViewModel
 
@@ -23,7 +23,7 @@ import com.example.panicbutton.viewmodel.ViewModel
 fun MyApp() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val isOnboardingShown = sharedPreferences.getBoolean("OnBoardingShown", false)
     val viewModel: ViewModel = viewModel()
 

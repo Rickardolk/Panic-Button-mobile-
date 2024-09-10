@@ -32,19 +32,19 @@ fun ScreenMonitor(
 ) {
     Column(
         modifier
-            .padding(top = 40.dp, start = 24.dp, end = 24.dp)
+            .padding(start = 24.dp, end = 24.dp)
             .fillMaxWidth()
     ) {
         Column(
             modifier
                 .fillMaxWidth()
                 .background(color = colorResource(id = R.color.merah), RoundedCornerShape(24.dp))
-                .padding(24.dp),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text =" Informasi Darurat",
-                fontSize = 24.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )

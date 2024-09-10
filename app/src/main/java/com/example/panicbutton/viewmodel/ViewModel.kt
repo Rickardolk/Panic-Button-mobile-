@@ -15,7 +15,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.api.ApiService
@@ -198,6 +197,25 @@ class ViewModel : ViewModel() {
 
             override fun onFailure(call: Call<List<DetailLog>>, t: Throwable) {
                 _detailLogData.value = emptyList()
+            }
+        })
+    }
+
+    fun rekap5(){
+        apiService.getRekapData().enqueue(object : Callback<List<RekapData>> {
+            override fun onResponse(
+                call: Call<List<RekapData>>,
+                response: Response<List<RekapData>>
+            ) {
+                if (response.isSuccessful) {
+                    rekapData.value = response.body()?.take(5)
+                } else {
+                    errorMessage.value = "Error retrieving data"
+                }
+            }
+
+            override fun onFailure(call: Call<List<RekapData>>, t: Throwable) {
+                errorMessage.value = t.message
             }
         })
     }
