@@ -10,11 +10,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.panicbutton.screen.Dashboard
+import com.example.panicbutton.screen.AdminDashboard
 import com.example.panicbutton.screen.DataRekapScreen
 import com.example.panicbutton.screen.DetailLogScreen
-import com.example.panicbutton.component.MainFunction
-import com.example.panicbutton.screen.HomeScreen
+import com.example.panicbutton.component.OnBoarding
+import com.example.panicbutton.screen.UserDashboard
 import com.example.panicbutton.screen.LoginScreen
 import com.example.panicbutton.screen.RegisterScreen
 import com.example.panicbutton.viewmodel.ViewModel
@@ -40,7 +40,7 @@ fun MyApp() {
         startDestination = if (isOnboardingShown)"login" else "onboarding"
     ) {
         composable("onboarding"){
-            MainFunction(navController = navController)
+            OnBoarding(navController = navController)
             LaunchedEffect(Unit) {
                 sharedPreferences.edit().putBoolean("OnBoardingShown", true).apply()
             }
@@ -57,7 +57,7 @@ fun MyApp() {
             )
         }
         composable("admin"){
-            Dashboard(
+            AdminDashboard(
                 navController = navController
             )
         }
@@ -69,7 +69,7 @@ fun MyApp() {
             )
         }
         composable("home") {
-            HomeScreen(
+            UserDashboard(
                 snackbarHostState = SnackbarHostState(),
                 navController = navController,
                 context = context

@@ -21,7 +21,7 @@ import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun Rekap5(
+fun LatestDataRekap(
     modifier: Modifier = Modifier,
     viewModel: ViewModel = viewModel()
 ) {

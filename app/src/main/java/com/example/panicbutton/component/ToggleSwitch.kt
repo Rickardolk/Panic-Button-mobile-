@@ -143,6 +143,7 @@ fun ToggleSwitch(
             }
         )
     }
+
     LaunchedEffect(key1 = isOn) {
         if (isOn) {
             delay(15000)

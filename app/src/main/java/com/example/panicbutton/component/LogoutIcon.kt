@@ -27,7 +27,7 @@ import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 
 @Composable
-fun IconLogOut(
+fun LogoutIcon(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {

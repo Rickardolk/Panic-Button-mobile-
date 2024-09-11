@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.DataItem
 
 @Composable

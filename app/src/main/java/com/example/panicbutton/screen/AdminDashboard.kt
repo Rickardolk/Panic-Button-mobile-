@@ -11,14 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.panicbutton.component.ButtonLogOut
-import com.example.panicbutton.component.Rekap5
+import com.example.panicbutton.component.LatestDataRekap
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.panicbutton.component.LogoutIcon
 
 
 @Composable
-fun Dashboard(
+fun AdminDashboard(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: ViewModel = viewModel()
@@ -30,9 +30,9 @@ fun Dashboard(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        ButtonLogOut(navController = navController)
-        ScreenMonitor(navController = navController)
-        Rekap5(modifier, viewModel)
+        LogoutIcon(navController = navController)
+        MonitorScreen(navController = navController)
+        LatestDataRekap(modifier, viewModel)
         TextButton(
             onClick = { navController.navigate("data_rekap") }) {
             Text(

@@ -26,7 +26,6 @@ import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.OnBoardingData
@@ -34,7 +33,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainFunction(navController: NavController) {
+fun OnBoarding(navController: NavController) {
     val items = listOf(
         OnBoardingData(
             R.raw.error_wifi,
