@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,45 +48,51 @@ fun LatestMonitorItem(
         }
 
     }
-    Column(
+    Surface(
         modifier
-            .padding(start = 24.dp, end = 24.dp)
-            .fillMaxWidth()
-            .background(Color.White, RoundedCornerShape(16.dp))
-            .padding(top = 16.dp, bottom = 16.dp)
-    ){
-        monitoringData.forEach { log ->
-            Column(
-                modifier
-                    .clickable {
-                        viewModel.detailLog(log.nomor_rumah)
-                        navController.navigate("detail_log_screen/${log.nomor_rumah}")
-                    },
-            ) {
-                Row(
+            .padding(start = 24.dp, end = 24.dp),
+        shadowElevation = 4.dp,
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier
+                .fillMaxWidth()
+                .background(Color.White, RoundedCornerShape(16.dp))
+                .padding(top = 16.dp, bottom = 16.dp)
+        ){
+            monitoringData.forEach { log ->
+                Column(
                     modifier
-                        .padding(start = 26.dp, end = 26.dp)
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .clickable {
+                            viewModel.detailLog(log.nomor_rumah)
+                            navController.navigate("detail_log_screen/${log.nomor_rumah}")
+                        }
                 ) {
-                    Text(
-                        text = log.nomor_rumah,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = log.waktu,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Normal
+                    Row(
+                        modifier
+                            .padding(start = 26.dp, end = 26.dp)
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = log.nomor_rumah,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = log.waktu,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    }
+                    Divider(
+                        color = Color.Gray,
+                        thickness = 0.5.dp,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
                     )
                 }
-                Divider(
-                    color = Color.Gray,
-                    thickness = 0.5.dp,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                )
             }
         }
     }

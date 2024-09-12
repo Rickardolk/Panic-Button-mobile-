@@ -28,7 +28,6 @@ import com.example.panicbutton.viewmodel.RekapData
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.R
 
 @Composable
@@ -53,7 +52,7 @@ fun LatestDataRekap(
         rekapData.isNotEmpty() -> {
             LazyColumn() {
                 items(rekapData) { log ->
-                    RekapLogRow(log, viewModel, navController)
+                    RekapTable(log, viewModel, navController)
                 }
             }
         }
@@ -72,7 +71,7 @@ fun LatestDataRekap(
 }
 
 @Composable
-fun RekapLogRow(
+fun RekapTable(
     log: RekapData,
     viewModel: ViewModel = viewModel(),
     navController: NavController
