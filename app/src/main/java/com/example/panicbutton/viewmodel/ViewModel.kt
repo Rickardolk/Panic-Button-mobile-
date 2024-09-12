@@ -2,16 +2,10 @@ package com.example.panicbutton.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.SnackbarHostState
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +14,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.api.ApiService
@@ -36,9 +29,11 @@ import java.io.IOException
 class ViewModel : ViewModel() {
     private val apiService: ApiService = RetrofitClient.create()
     private val _monitoringData = MutableLiveData<List<MonitorData>>()
+    private val _latestMonitor = MutableLiveData<List<LatestMonitor>>()
     private val _detailLogData = MutableLiveData<List<DetailLog>>()
 
     val monitoringData: LiveData<List<MonitorData>> = _monitoringData
+    val latestMonitor: LiveData<List<LatestMonitor>> = _latestMonitor
     val detailLogData: LiveData<List<DetailLog>> = _detailLogData
     val rekapData = MutableLiveData<List<RekapData>>()
     val isLoading = MutableLiveData<Boolean>()
@@ -51,7 +46,7 @@ class ViewModel : ViewModel() {
             Toast.makeText(context, "Nomor Rumah dan Sandi harus diisi", Toast.LENGTH_SHORT).show()
             return
         }
-        val call = apiService.registerUser(nomorRumah, sandi)
+        val call = apiService.registerService(nomorRumah, sandi)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -80,7 +75,7 @@ class ViewModel : ViewModel() {
             Toast.makeText(context, "MAsuk gagal: Lengkapi data di atas", Toast.LENGTH_SHORT).show()
             return
         }
-        val call = apiService.loginUser(nomorRumah, sandi)
+        val call = apiService.loginService(nomorRumah, sandi)
         val admin_norum = "admin"
         val admin_sandi = "admin"
 
@@ -143,7 +138,7 @@ class ViewModel : ViewModel() {
 
     // function utk monitoring
     fun monitoring() {
-        val call = apiService.getMonitoringData()
+        val call = apiService.monitorService()
 
         call.enqueue(object : Callback<List<MonitorData>> {
             override fun onResponse(call: Call<List<MonitorData>>, response: Response<List<MonitorData>>) {
@@ -159,10 +154,27 @@ class ViewModel : ViewModel() {
         })
     }
 
+    fun monitorLatest() {
+        val call = apiService.latestMonitorService()
+
+        call.enqueue(object : Callback<List<LatestMonitor>> {
+            override fun onResponse(call: Call<List<LatestMonitor>>, response: Response<List<LatestMonitor>>) {
+                if (response.isSuccessful) {
+                    _latestMonitor.postValue(response.body())
+                } else {
+                    Log.e("MonitoringError", "Error: ${response.code()} - ${response.message()}")
+                }
+            }
+            override fun onFailure(call: Call<List<LatestMonitor>>, t: Throwable) {
+                Log.e("MonitoringError", "Failed to fetch data: ${t.localizedMessage}")
+            }
+        })
+    }
+
     // fun data rekap
     fun fetchRekapData() {
         isLoading.value = true
-        val call = apiService.getRekapData()
+        val call = apiService.rekapService()
 
         call.enqueue(object : Callback<List<RekapData>> {
             override fun onResponse(
@@ -186,8 +198,9 @@ class ViewModel : ViewModel() {
         })
     }
 
+    //function utk detailLog
     fun detailLog(nomorRumah: String) {
-        val call = apiService.getDetailLog(nomorRumah)
+        val call = apiService.detailLogService(nomorRumah)
 
         call.enqueue(object : Callback<List<DetailLog>>{
             override fun onResponse(
@@ -206,14 +219,15 @@ class ViewModel : ViewModel() {
         })
     }
 
-    fun rekap5(){
-        apiService.getRekapData().enqueue(object : Callback<List<RekapData>> {
+    //fun utk latest rekap
+    fun latestRekap(){
+        apiService.rekapService().enqueue(object : Callback<List<RekapData>> {
             override fun onResponse(
                 call: Call<List<RekapData>>,
                 response: Response<List<RekapData>>
             ) {
                 if (response.isSuccessful) {
-                    rekapData.value = response.body()?.take(5)
+                    rekapData.value = response.body()?.take(6)
                 } else {
                     errorMessage.value = "Error retrieving data"
                 }

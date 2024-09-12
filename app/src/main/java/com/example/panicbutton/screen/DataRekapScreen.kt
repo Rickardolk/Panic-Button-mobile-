@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.panicbutton.component.DataItem
+import com.example.panicbutton.component.DataRekapItem
 
 @Composable
 fun DataRekapScreen(
@@ -45,7 +45,7 @@ fun DataRekapScreen(
         } else {
             LazyColumn {
                 items(rekapData) { data ->
-                    DataItem(modifier, data, navController = navController)
+                    DataRekapItem(modifier, data, navController = navController)
                 }
             }
         }

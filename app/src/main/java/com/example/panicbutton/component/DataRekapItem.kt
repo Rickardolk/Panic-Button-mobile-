@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
-fun DataItem(
+fun DataRekapItem(
     modifier: Modifier,
     data: RekapData,
     viewModel: ViewModel = viewModel(),

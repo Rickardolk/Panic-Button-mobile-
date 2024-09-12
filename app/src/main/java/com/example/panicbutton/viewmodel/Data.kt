@@ -12,6 +12,11 @@ data class MonitorData(
     val waktu: String
 )
 
+data class LatestMonitor(
+    val nomor_rumah: String,
+    val waktu: String
+)
+
 data class RekapData(
     val id: Int,
     val nomor_rumah: String,
