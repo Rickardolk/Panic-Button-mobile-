@@ -90,6 +90,7 @@ class ViewModel : ViewModel() {
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val jsonResponse = response.body()?.string()
+                Log.d("ResponseBody", jsonResponse ?: "No response")
                 if (jsonResponse?.contains("success") == true) {
                     Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT).show()
                     saveUserLogin(context, nomorRumah)

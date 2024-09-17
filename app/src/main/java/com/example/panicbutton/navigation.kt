@@ -10,8 +10,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.panicbutton.screen.DataRekapScreen
 import com.example.panicbutton.component.OnBoarding
+import com.example.panicbutton.screen.DataRekapScreen
 import com.example.panicbutton.screen.DetailLogScreen
 import com.example.panicbutton.screen.AdminDashboard
 import com.example.panicbutton.screen.UserDashboard
