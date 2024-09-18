@@ -41,7 +41,7 @@ class ViewModel : ViewModel() {
 
 
     // function utk registrasi
-    fun register(nama: String, nomorRumah: String, sandi: String, context: Context, navController: NavController) {
+    fun register(nama:String, nomorRumah: String, sandi: String, context: Context, navController: NavController) {
         if (nama.isBlank() || nomorRumah.isBlank() || sandi.isBlank()){
             Toast.makeText(context, "Nama, Nomor Rumah, dan Sandi harus diisi", Toast.LENGTH_SHORT).show()
             return

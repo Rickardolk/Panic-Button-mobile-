@@ -82,7 +82,7 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(44.dp))
                 OutlinedTextField(
                     value = inputNama,
-                    onValueChange = { inputNama = it },
+                    onValueChange = { inputNama = it  },
                     label = { Text(text = "Nama")},
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
