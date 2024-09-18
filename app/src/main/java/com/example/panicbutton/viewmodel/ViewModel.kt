@@ -41,12 +41,12 @@ class ViewModel : ViewModel() {
 
 
     // function utk registrasi
-    fun register(nomorRumah: String, sandi: String, context: Context, navController: NavController) {
-        if (nomorRumah.isBlank() || sandi.isBlank()){
-            Toast.makeText(context, "Nomor Rumah dan Sandi harus diisi", Toast.LENGTH_SHORT).show()
+    fun register(nama: String, nomorRumah: String, sandi: String, context: Context, navController: NavController) {
+        if (nama.isBlank() || nomorRumah.isBlank() || sandi.isBlank()){
+            Toast.makeText(context, "Nama, Nomor Rumah, dan Sandi harus diisi", Toast.LENGTH_SHORT).show()
             return
         }
-        val call = apiService.registerService(nomorRumah, sandi)
+        val call = apiService.registerService(nama, nomorRumah, sandi)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -237,32 +237,6 @@ class ViewModel : ViewModel() {
             }
         })
     }
-
-    //fun utk notification
-//    fun notification(context: Context, title: String, description: String) {
-//        val channelId = "toggle_device_channel"
-//        val notificationId = 1
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val channelName = "Toggle Device Notifications"
-//            val importance = NotificationManager.IMPORTANCE_DEFAULT
-//            val channel = NotificationChannel(channelId, channelName, importance)
-//            val notificationManager: NotificationManager =
-//                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            notificationManager.createNotificationChannel(channel)
-//        }
-//
-//        // Build the notification with title and description
-//        val notificationBuilder = NotificationCompat.Builder(context, channelId)
-//            .setSmallIcon(android.R.drawable.ic_dialog_info)
-//            .setContentTitle(title)
-//            .setContentText(description)
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//
-//        with(NotificationManagerCompat.from(context)) {
-//            notify(notificationId, notificationBuilder.build())
-//        }
-//    }
 }
 
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,7 +28,7 @@ import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 
 @Composable
-fun LogoutIcon(
+fun LogOutIcon(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
@@ -59,13 +60,20 @@ fun LogoutIcon(
                     onClick = {
                         showKeluarDialog = false
                         viewModel.logout(context, navController)
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.font)
+                    )
                 ) { Text("Ya")
 
                 }
             },
             dismissButton = {
-                Button(onClick = { showKeluarDialog = false }) {
+                Button(
+                    onClick = { showKeluarDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.font))
+                ) {
                     Text("Tidak")
                 }
             }

@@ -1,6 +1,6 @@
 package com.example.panicbutton.component
 
-import android.app.NotificationManager
+
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
@@ -30,8 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.panicbutton.viewmodel.PanicButton
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.panicbutton.R
@@ -122,6 +121,7 @@ fun ToggleSwitch(
             onDismissRequest = { showDialog = false },
             title = { Text("Konfirmasi") },
             text = { Text("Apakah Anda yakin ingin mengaktifkan Panic Button?") },
+            containerColor = Color.White,
             confirmButton = {
                 Button(
                     onClick = {
@@ -137,13 +137,21 @@ fun ToggleSwitch(
                             Log.e("ToggleSwitch", "Nomor rumah is null or empty")
                             isLoading = false
                         }
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.font)
+                    )
                 ) {
                     Text("Ya")
                 }
             },
             dismissButton = {
-                Button(onClick = { showDialog = false }) {
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.font)
+                    )
+                ) {
                     Text("Tidak")
                 }
             }

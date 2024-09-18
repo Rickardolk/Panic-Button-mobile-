@@ -19,8 +19,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,12 +30,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,6 +46,7 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: ViewModel = viewModel()
 ) {
+    var inputNama by remember { mutableStateOf("") }
     val (nomorRumah, setNomorRumah) = remember { mutableStateOf("") }
     val (sandi, setSandi) = remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -76,9 +81,22 @@ fun RegisterScreen(
                 )
                 Spacer(modifier = Modifier.height(44.dp))
                 OutlinedTextField(
+                    value = inputNama,
+                    onValueChange = { inputNama = it },
+                    label = { Text(text = "Nama")},
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = colorResource(id = R.color.font),
+                        focusedLabelColor = colorResource(id = R.color.font),
+                        cursorColor = colorResource(id = R.color.font)
+                    )
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
                     value = nomorRumah,
                     onValueChange = {setNomorRumah(it)},
-                    label = { Text(text = "Nomor Rumah")},
+                    label = { Text(text = "Nomor Rumah") },
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -91,7 +109,7 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = sandi ,
                     onValueChange ={ setSandi(it)},
-                    label = { Text(text = "Sandi")},
+                    label = { Text(text = "Sandi") },
                     visualTransformation = PasswordVisualTransformation(),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
@@ -107,7 +125,7 @@ fun RegisterScreen(
                         .fillMaxWidth()
                         .height(50.dp),
                     onClick = {
-                        viewModel.register(nomorRumah, sandi, context, navController)
+                        viewModel.register(inputNama, nomorRumah, sandi, context, navController)
                     },
                     shape = RoundedCornerShape(26.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -139,4 +157,11 @@ fun RegisterScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Liat() {
+    RegisterScreen(
+        navController = rememberNavController())
 }

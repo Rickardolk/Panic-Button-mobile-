@@ -12,11 +12,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.OnBoarding
+import com.example.panicbutton.screen.RegisterScreen
 import com.example.panicbutton.screen.DetailLogScreen
 import com.example.panicbutton.screen.AdminDashboard
 import com.example.panicbutton.screen.UserDashboard
 import com.example.panicbutton.screen.LoginScreen
-import com.example.panicbutton.screen.RegisterScreen
 import com.example.panicbutton.viewmodel.ViewModel
 
 @Composable

@@ -19,6 +19,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,8 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.panicbutton.R
-import com.example.panicbutton.component.LogoutIcon
+import com.example.panicbutton.component.LogOutIcon
 import com.example.panicbutton.component.ToggleSwitch
+import com.example.panicbutton.viewmodel.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun UserDashboard(
@@ -117,7 +121,7 @@ fun UserDashboard(
                             )
                         }
                     }
-                    LogoutIcon(navController = navController)
+                    LogOutIcon(navController = navController)
                 }
             }
             Column(
