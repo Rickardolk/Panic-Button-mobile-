@@ -21,6 +21,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +47,7 @@ fun UserDashboard(
 ) {
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val nomorRumah = sharedPref.getString("nomorRumah", "Nomor rumah tidak ditemukan")
+    val namaUser = sharedPref.getString("namaUser", "Nama user tidak ditemukan")
 
     Box(
         modifier
@@ -99,7 +102,7 @@ fun UserDashboard(
                             color = colorResource(id = R.color.font2)
                         )
                         Text(
-                            text = "Rickardo",
+                            text = "$namaUser",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = colorResource(id = R.color.font)

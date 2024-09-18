@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONObject
 import java.io.IOException
 
 
@@ -41,7 +42,7 @@ class ViewModel : ViewModel() {
 
 
     // function utk registrasi
-    fun register(nama:String, nomorRumah: String, sandi: String, context: Context, navController: NavController) {
+    fun register(nama: String, nomorRumah: String, sandi: String, context: Context, navController: NavController) {
         if (nama.isBlank() || nomorRumah.isBlank() || sandi.isBlank()){
             Toast.makeText(context, "Nama, Nomor Rumah, dan Sandi harus diisi", Toast.LENGTH_SHORT).show()
             return
@@ -91,8 +92,10 @@ class ViewModel : ViewModel() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val jsonResponse = response.body()?.string()
                 if (jsonResponse?.contains("success") == true) {
+                    val jsonObject = JSONObject(jsonResponse)
+                    val userName = jsonObject.getString("nama")
                     Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT).show()
-                    saveUserLogin(context, nomorRumah)
+                    saveUserLogin(context, nomorRumah, userName)
                     navController.navigate("home")
                 } else {
                     Toast.makeText(context, "Nomor rumah atau sandi salah", Toast.LENGTH_SHORT).show()
@@ -104,10 +107,11 @@ class ViewModel : ViewModel() {
         })
     }
 
-    private fun saveUserLogin(context: Context, nomorRumah: String) {
+    private fun saveUserLogin(context: Context, nomorRumah: String, namaUser: String) {
         val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("nomorRumah", nomorRumah)
+            putString("namaUser", namaUser)
             apply()
         }
     }

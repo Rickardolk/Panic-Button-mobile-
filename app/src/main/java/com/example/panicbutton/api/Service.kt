@@ -16,7 +16,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("register.php")
     fun registerService(
-        @Field("nama")  nama: String,
+        @Field("nama") nama: String,
         @Field("nomorRumah") nomorRumah: String,
         @Field("sandi") sandi: String
     ): Call<ResponseBody>
