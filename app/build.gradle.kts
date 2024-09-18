@@ -84,4 +84,5 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.6.8")
     implementation ("androidx.core:core-splashscreen:1.0.1")
     implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+    implementation ("com.google.accompanist:accompanist-permissions:0.28.0")
 }

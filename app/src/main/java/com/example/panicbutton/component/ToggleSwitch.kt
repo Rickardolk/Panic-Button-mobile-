@@ -1,5 +1,6 @@
 package com.example.panicbutton.component
 
+import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -29,9 +30,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.panicbutton.viewmodel.PanicButton
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.panicbutton.R
+import com.example.panicbutton.notiification.sendNotification
 import kotlinx.coroutines.delay
 
 @Composable
@@ -45,6 +49,7 @@ fun ToggleSwitch(
     val context = LocalContext.current
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val nomorRumah = sharedPref.getString("nomorRumah", "")
+
 
     Column(
         modifier = Modifier
@@ -126,6 +131,7 @@ fun ToggleSwitch(
                         if (nomorRumah != null && nomorRumah.isNotEmpty()) {
                             viewModel.toggleDevice(isOn, nomorRumah, snackbarHostState) {
                                 isLoading = false
+                                sendNotification(context, "PANIC BUTTON", "Buzzer Telah Berbunyi")
                             }
                         } else {
                             Log.e("ToggleSwitch", "Nomor rumah is null or empty")
@@ -160,3 +166,5 @@ fun ToggleSwitch(
         }
     }
 }
+
+

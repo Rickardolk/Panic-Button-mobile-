@@ -1,5 +1,6 @@
 package com.example.panicbutton
 
+import DataRekapScreen
 import android.content.Context
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -10,7 +11,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.panicbutton.screen.DataRekapScreen
 import com.example.panicbutton.component.OnBoarding
 import com.example.panicbutton.screen.DetailLogScreen
 import com.example.panicbutton.screen.AdminDashboard

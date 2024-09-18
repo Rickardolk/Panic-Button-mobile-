@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.panicbutton.notiification.sendNotification
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,6 +109,7 @@ fun LoginScreen(
                         .height(50.dp),
                     onClick = {
                         viewModel.login(nomorRumah, sandi, context, navController)
+                        sendNotification(context, "Judul Notifikasi", "Isi Notifikasi")
                     },
                     shape = RoundedCornerShape(26.dp),
                     colors = ButtonDefaults.buttonColors(
