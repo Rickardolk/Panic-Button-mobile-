@@ -1,11 +1,13 @@
 package com.example.panicbutton.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -18,7 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
@@ -39,16 +44,17 @@ fun MonitorItem(
             viewModel.monitoring()
             delay(2000)
         }
-
     }
 
     monitoringData.forEach { log ->
         Card(
             modifier
-                .clickable { viewModel.detailLog(log.nomor_rumah)
-                navController.navigate("detail_log_screen/${log.nomor_rumah}")}
+                .clickable {
+                    viewModel.detailLog(log.nomor_rumah)
+                    navController.navigate("detail_log_screen/${log.nomor_rumah}")
+                }
                 .padding(start = 24.dp, end = 24.dp)
-                .height(200.dp)
+                .wrapContentHeight()
                 .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.elevatedCardElevation(4.dp),
@@ -61,7 +67,7 @@ fun MonitorItem(
             Column(
                 modifier
                     .fillMaxWidth()
-                    .padding(start = 56.dp, end = 56.dp, top = 29.dp, bottom = 29.dp),
+                    .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -83,6 +89,27 @@ fun MonitorItem(
                     fontSize = 16.sp,
                     color = colorResource(id = R.color.font2)
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+                Column(
+                    modifier
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
+                ) {
+                    Text(
+                        text = "Pesan:",
+                        fontSize = 14.sp,
+                        color = colorResource(id = R.color.font)
+                    )
+                    Text(
+                        text = log.pesan,
+                        fontSize = 14.sp,
+                        color = colorResource(id = R.color.font3),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        style = TextStyle(lineHeight = 20.sp),
+                        textAlign = TextAlign.Justify
+                    )
+                }
             }
         }
     }

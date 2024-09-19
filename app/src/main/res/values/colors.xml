@@ -14,5 +14,13 @@
     <color name="primary">#E7706F</color>
     <color name="font">#BA4661</color>
     <color name="font2">#373335</color>
+    <color name="font3">#626262</color>
+    <color name="defauld">#C4C7D0</color>
+    <color name="color_outlined_priority_button">#969696</color>
     <color name="background">#F1F3F4</color>
+    <color name="darurat">#EF233C</color>
+    <color name="penting">#FFBD00</color>
+    <color name="biasa">#8AC926</color>
+    <color name="alert_kembali_button">#1F1D1B20</color>
+    <color name="alert_kembali_text">#611D1B20</color>
 </resources>

@@ -11,21 +11,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
@@ -60,9 +57,10 @@ fun LatestMonitorItem(
                 .background(Color.White, RoundedCornerShape(16.dp))
                 .padding(top = 16.dp, bottom = 16.dp)
         ){
-            monitoringData.forEach { log ->
+            monitoringData.forEachIndexed { index, log ->
                 Column(
                     modifier
+                        .padding(start = 26.dp, end = 25.dp)
                         .clickable {
                             viewModel.detailLog(log.nomor_rumah)
                             navController.navigate("detail_log_screen/${log.nomor_rumah}")
@@ -70,9 +68,7 @@ fun LatestMonitorItem(
                 ) {
                     Row(
                         modifier
-                            .padding(start = 26.dp, end = 26.dp)
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
@@ -83,15 +79,25 @@ fun LatestMonitorItem(
                         Text(
                             text = log.waktu,
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Normal
+                            fontWeight = FontWeight.Normal,
+                            color = colorResource(id = R.color.font)
                         )
                     }
-                    Divider(
-                        color = Color.Gray,
-                        thickness = 0.5.dp,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = log.pesan,
+                        fontSize = 12.sp,
+                        color = colorResource(id = R.color.font3),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
+                    if (index < monitoringData.size - 1) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(top = 8.dp, bottom = 10.dp),
+                            color = Color.Gray,
+                            thickness = 0.5.dp
+                        )
+                    }
                 }
             }
         }

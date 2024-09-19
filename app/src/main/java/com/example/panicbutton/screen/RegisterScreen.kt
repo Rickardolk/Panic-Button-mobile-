@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -28,15 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.R
+import com.example.panicbutton.component.OutlinedTextFieldPass
 import com.example.panicbutton.viewmodel.ViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,9 +86,16 @@ fun RegisterScreen(
                     label = { Text(text = "Nama")},
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_username),
+                            contentDescription = "ic_nama"
+                        )
+                    },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
+                        focusedLeadingIconColor = colorResource(id = R.color.font),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )
@@ -99,26 +106,25 @@ fun RegisterScreen(
                     label = { Text(text = "Nomor Rumah") },
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_home),
+                            contentDescription = "ic_home"
+                        )
+                    },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
+                        focusedLeadingIconColor = colorResource(id = R.color.font),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = sandi ,
-                    onValueChange ={ setSandi(it)},
-                    label = { Text(text = "Sandi") },
-                    visualTransformation = PasswordVisualTransformation(),
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = colorResource(id = R.color.font),
-                        focusedLabelColor = colorResource(id = R.color.font),
-                        cursorColor = colorResource(id = R.color.font)
-                    )
+
+                OutlinedTextFieldPass(
+                    sandi, setSandi
                 )
+
                 Spacer(modifier = Modifier.height(22.dp))
                 Button(
                     modifier = Modifier
@@ -157,11 +163,4 @@ fun RegisterScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Liat() {
-    RegisterScreen(
-        navController = rememberNavController())
 }

@@ -1,6 +1,7 @@
 package com.example.panicbutton.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +14,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,9 +32,19 @@ import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.panicbutton.component.LatestDataRekap
 import com.example.panicbutton.component.LatestMonitorItem
 import com.example.panicbutton.component.MonitorItem
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
+import com.example.panicbutton.component.LatestDataRekap
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 fun AdminDashboard(
@@ -38,7 +52,6 @@ fun AdminDashboard(
     navController: NavController,
     viewModel: ViewModel = viewModel()
 ) {
-
     Column(
         modifier
             .fillMaxSize()
@@ -69,52 +82,14 @@ fun AdminDashboard(
             navController = navController
         )
         Spacer(modifier = Modifier.height(16.dp))
-
-        Column(
-            modifier
-                .fillMaxSize()
-                .height(310.dp)
-                .background(color = Color.White)
-        ) {
-            Row(
-                modifier
-                    .padding(start = 24.dp, end = 24.dp, top = 12.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Absolute.SpaceBetween
-            ) {
-                Text(
-                    text = "Data Rekap",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(id = R.color.font)
-                )
-                TextButton(
-                    onClick = {
-                        navController.navigate("data_rekap")
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = colorResource(id = R.color.font2)
-                    )
-                ) {
-                    Text(
-                        text = "Lihat Selengkapnya",
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            LatestDataRekap(
-                navController = navController
-            )
-        }
+        LatestDataRekap(
+            navController = navController
+        )
     }
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
-private fun liat() {
+private fun Liat() {
     AdminDashboard(navController = rememberNavController())
 }

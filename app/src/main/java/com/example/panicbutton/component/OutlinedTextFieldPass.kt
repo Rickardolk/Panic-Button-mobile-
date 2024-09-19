@@ -1,0 +1,77 @@
+package com.example.panicbutton.component
+
+import android.support.v4.os.IResultReceiver2.Default
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.panicbutton.R
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OutlinedTextFieldPass(
+    sandi: String,
+    setSandi: (String) -> Unit
+) {
+    var passwordVisible by remember { mutableStateOf(false)}
+
+    OutlinedTextField(
+        value = sandi,
+        onValueChange = {setSandi(it)},
+        label = { Text(text = "Sandi")},
+        visualTransformation =
+            if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.fillMaxWidth(),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = colorResource(id = R.color.font),
+            focusedLabelColor = colorResource(id = R.color.font),
+            focusedLeadingIconColor = colorResource(id = R.color.font),
+            cursorColor = colorResource(id = R.color.font)
+        ),
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_password),
+                contentDescription = "ic_password"
+                )
+        },
+        trailingIcon = {
+            val icon = if (passwordVisible) {
+                painterResource(id = R.drawable.ic_hint_password)
+            } else {
+                painterResource(id = R.drawable.ic_hint_password)
+            }
+            
+            IconButton(
+                onClick = {
+                    passwordVisible = !passwordVisible
+                }
+            ) {
+                Icon(
+                    painter = icon,
+                    contentDescription = if (passwordVisible) "Hide Password" else "Show Password",
+                    tint = if (passwordVisible) colorResource(id = R.color.font) else colorResource(
+                        id = R.color.defauld
+                    )
+                )
+            }
+        }
+    )
+}

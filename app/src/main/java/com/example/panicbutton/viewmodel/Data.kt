@@ -9,12 +9,14 @@ data class OnBoardingData(
 
 data class MonitorData(
     val nomor_rumah: String,
-    val waktu: String
+    val waktu: String,
+    val pesan: String
 )
 
 data class LatestMonitor(
     val nomor_rumah: String,
-    val waktu: String
+    val waktu: String,
+    val pesan: String
 )
 
 data class RekapData(

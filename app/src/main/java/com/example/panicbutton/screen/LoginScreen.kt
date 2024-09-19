@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -26,15 +27,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.panicbutton.notiification.sendNotification
+import androidx.navigation.compose.rememberNavController
+import com.example.panicbutton.component.OutlinedTextFieldPass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,26 +86,25 @@ fun LoginScreen(
                     label = { Text(text = "Nomor Rumah")},
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_home),
+                            contentDescription = "ic home"
+                        )
+                    },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
+                        focusedLeadingIconColor = colorResource(id = R.color.font),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = sandi ,
-                    onValueChange ={ setSandi(it)},
-                    label = { Text(text = "Sandi")},
-                    visualTransformation = PasswordVisualTransformation(),
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = colorResource(id = R.color.font),
-                        focusedLabelColor = colorResource(id = R.color.font),
-                        cursorColor = colorResource(id = R.color.font)
-                    )
+                
+                OutlinedTextFieldPass(
+                    sandi, setSandi
                 )
+                
                 Spacer(modifier = Modifier.height(22.dp))
                 Button(
                     modifier = Modifier
@@ -109,7 +112,6 @@ fun LoginScreen(
                         .height(50.dp),
                     onClick = {
                         viewModel.login(nomorRumah, sandi, context, navController)
-                        sendNotification(context, "Judul Notifikasi", "Isi Notifikasi")
                     },
                     shape = RoundedCornerShape(26.dp),
                     colors = ButtonDefaults.buttonColors(
