@@ -37,7 +37,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,7 +44,6 @@ import com.example.panicbutton.viewmodel.RekapData
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.R
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -198,19 +196,3 @@ fun RekapTable(
    }
 }
 
-@Preview(showBackground = false)
-@Composable
-private fun PreviewLatestDataRekap() {
-    // Buat NavController palsu untuk preview
-    val navController = rememberNavController()
-    // Buat ViewModel palsu untuk preview
-    val viewModel = viewModel<ViewModel>().apply {
-        // Jika perlu, tambahkan data contoh di sini
-    }
-
-    // Panggil composable yang ingin di-preview
-    LatestDataRekap(
-        navController = navController,
-        viewModel = viewModel
-    )
-}

@@ -27,7 +27,8 @@ import com.example.panicbutton.R
 
 @Composable
 fun PriorityButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPrioritySelected: (String) -> Unit
 ) {
    var selectedPriority by remember { mutableStateOf("") }
 
@@ -44,7 +45,10 @@ fun PriorityButton(
         ) {
             if (selectedPriority == "Darurat") {
                 Button(
-                    onClick = { selectedPriority = "Darurat"},
+                    onClick = {
+                        selectedPriority = "Darurat"
+                        onPrioritySelected(selectedPriority)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(id = R.color.darurat)
                     ),
@@ -62,6 +66,7 @@ fun PriorityButton(
                 OutlinedButton(
                     onClick = {
                         selectedPriority = "Darurat"
+                        onPrioritySelected(selectedPriority)
                     },
                     border = BorderStroke(1.dp, colorResource(id = R.color.darurat)),
                     modifier = Modifier.weight(1f),
@@ -77,7 +82,10 @@ fun PriorityButton(
             }
             if (selectedPriority == "Penting") {
                 Button(
-                    onClick = {selectedPriority = "Penting"},
+                    onClick = {
+                        selectedPriority = "Penting"
+                        onPrioritySelected(selectedPriority)
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.penting)),
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(6.dp),
@@ -91,7 +99,10 @@ fun PriorityButton(
                 }
             } else {
                 OutlinedButton(
-                    onClick = { selectedPriority = "Penting"},
+                    onClick = {
+                        selectedPriority = "Penting"
+                        onPrioritySelected(selectedPriority)
+                    },
                     border = BorderStroke(1.dp, colorResource(id = R.color.penting)),
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(6.dp),
@@ -106,7 +117,10 @@ fun PriorityButton(
             }
             if (selectedPriority == "Biasa") {
                 Button(
-                    onClick = {selectedPriority = "Biasa"},
+                    onClick = {
+                        selectedPriority = "Biasa"
+                        onPrioritySelected(selectedPriority)
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.biasa)),
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(6.dp),
@@ -120,7 +134,10 @@ fun PriorityButton(
                 }
             } else {
                 OutlinedButton(
-                    onClick = {selectedPriority = "Biasa"},
+                    onClick = {
+                        selectedPriority = "Biasa"
+                        onPrioritySelected(selectedPriority)
+                    },
                     border = BorderStroke(1.dp, colorResource(id = R.color.biasa)),
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(6.dp),

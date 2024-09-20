@@ -56,6 +56,7 @@ fun ToggleSwitch(
     var isLoading by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var userInput by remember { mutableStateOf("") }
+    var selectedPriority by remember {mutableStateOf("")}
     val context = LocalContext.current
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val nomorRumah = sharedPref.getString("nomorRumah", "")
@@ -84,7 +85,7 @@ fun ToggleSwitch(
                     isOn = false
                     isLoading = true
                     if (!nomorRumah.isNullOrEmpty()) {
-                        viewModel.toggleDevice(isOn, nomorRumah,"", snackbarHostState) {
+                        viewModel.toggleDevice(isOn, nomorRumah ?: "","", "", snackbarHostState) {
                             isLoading = false
                         }
                     } else {
@@ -163,7 +164,11 @@ fun ToggleSwitch(
                             cursorColor = colorResource(id = R.color.font)
                         )
                     )
-                    PriorityButton()
+                    PriorityButton(
+                        onPrioritySelected = { priority ->
+                            selectedPriority = priority
+                        }
+                    )
                 }
             },
             containerColor = Color.White,
@@ -176,7 +181,7 @@ fun ToggleSwitch(
                         isLoading = true
                         showDialog = false
                         if (!nomorRumah.isNullOrEmpty()) {
-                            viewModel.toggleDevice(isOn, nomorRumah, userInput, snackbarHostState) {
+                            viewModel.toggleDevice(isOn, nomorRumah ?: "",userInput, selectedPriority, snackbarHostState) {
                                 isLoading = false
                                 sendNotification(context, "PANIC BUTTON", "Buzzer Telah Berbunyi")
                             }
@@ -219,7 +224,7 @@ fun ToggleSwitch(
             isOn = false
             isLoading = true
             if (!nomorRumah.isNullOrEmpty()) {
-                viewModel.toggleDevice(isOn, nomorRumah, "",snackbarHostState) {
+                viewModel.toggleDevice(isOn, nomorRumah ?: "","","", snackbarHostState) {
                     isLoading = false
                 }
             } else {

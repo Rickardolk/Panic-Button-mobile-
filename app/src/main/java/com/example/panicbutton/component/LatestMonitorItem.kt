@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -76,6 +78,29 @@ fun LatestMonitorItem(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
+                        Column(
+                            modifier
+                                .height(22.dp)
+                                .wrapContentWidth()
+                                .background(
+                                    color = when (log.prioritas) {
+                                        "Darurat" -> colorResource(id = R.color.darurat)
+                                        "Penting" -> colorResource(id = R.color.penting)
+                                        else -> (colorResource(id = R.color.biasa))
+                                    },
+                                    RoundedCornerShape(6.dp)
+
+                                )
+                                .padding(horizontal = 4.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = log.prioritas,
+                                fontSize = 12.sp,
+                                color = Color.White
+                            )
+                        }
                         Text(
                             text = log.waktu,
                             fontSize = 18.sp,

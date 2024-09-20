@@ -10,13 +10,15 @@ data class OnBoardingData(
 data class MonitorData(
     val nomor_rumah: String,
     val waktu: String,
-    val pesan: String
+    val pesan: String,
+    val prioritas: String
 )
 
 data class LatestMonitor(
     val nomor_rumah: String,
     val waktu: String,
-    val pesan: String
+    val pesan: String,
+    val prioritas: String
 )
 
 data class RekapData(
@@ -29,7 +31,8 @@ data class RekapData(
 data class DetailLog(
     val waktu: String,
     val nomor_rumah: String,
-    val status: String
+    val pesan: String,
+    val prioritas: String
 )
 
 

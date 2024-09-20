@@ -96,6 +96,7 @@ fun RegisterScreen(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
                         focusedLeadingIconColor = colorResource(id = R.color.font),
+                        unfocusedLeadingIconColor = colorResource(id = R.color.defauld),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )
@@ -116,6 +117,7 @@ fun RegisterScreen(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
                         focusedLeadingIconColor = colorResource(id = R.color.font),
+                        unfocusedLeadingIconColor = colorResource(id = R.color.defauld),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )

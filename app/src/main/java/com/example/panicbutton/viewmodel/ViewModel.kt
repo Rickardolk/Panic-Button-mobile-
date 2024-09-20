@@ -253,12 +253,13 @@ class PanicButton (application: Application) : AndroidViewModel(application) {
         on: Boolean,
         nomorRumah: String,
         pesan: String,
+        prioritas: String,
         snackbarHostState: SnackbarHostState,
         onLoadingChange: (Boolean) -> Unit
     ) {
         val ipAddress = getApplication<Application>().getString(R.string.ipAdd)
         val state = if (on) 1 else 0
-        val url = "http://$ipAddress/button/esp_iot/proses.php?id=2&state=$state&nomor_rumah=$nomorRumah&pesan=$pesan"
+        val url = "http://$ipAddress/button/esp_iot/proses.php?id=2&state=$state&nomor_rumah=$nomorRumah&pesan=$pesan&prioritas=$prioritas"
 
         val request = Request.Builder()
             .url(url)

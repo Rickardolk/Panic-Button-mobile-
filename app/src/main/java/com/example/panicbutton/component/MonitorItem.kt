@@ -1,5 +1,6 @@
 package com.example.panicbutton.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -49,11 +50,11 @@ fun MonitorItem(
     monitoringData.forEach { log ->
         Card(
             modifier
+                .padding(horizontal = 24.dp)
                 .clickable {
                     viewModel.detailLog(log.nomor_rumah)
                     navController.navigate("detail_log_screen/${log.nomor_rumah}")
                 }
-                .padding(start = 24.dp, end = 24.dp)
                 .wrapContentHeight()
                 .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -89,7 +90,30 @@ fun MonitorItem(
                     fontSize = 16.sp,
                     color = colorResource(id = R.color.font2)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                Column(
+                    modifier
+                        .fillMaxWidth()
+                        .height(36.dp)
+                        .background(
+                            color = when (log.prioritas) {
+                                "Darurat" -> colorResource(id = R.color.darurat)
+                                "Penting" -> colorResource(id = R.color.penting)
+                                else -> (colorResource(id = R.color.biasa))
+                            },
+                            RoundedCornerShape(10.dp)
+                        ),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = log.prioritas,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
                 Column(
                     modifier
                         .fillMaxWidth(),

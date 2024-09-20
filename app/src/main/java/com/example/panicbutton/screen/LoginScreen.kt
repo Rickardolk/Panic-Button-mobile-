@@ -29,15 +29,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.OutlinedTextFieldPass
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,6 +93,7 @@ fun LoginScreen(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
                         focusedLeadingIconColor = colorResource(id = R.color.font),
+                        unfocusedLeadingIconColor = colorResource(id = R.color.defauld),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )
