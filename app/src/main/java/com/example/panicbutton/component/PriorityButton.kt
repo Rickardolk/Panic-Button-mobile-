@@ -30,7 +30,7 @@ fun PriorityButton(
     modifier: Modifier = Modifier,
     onPrioritySelected: (String) -> Unit
 ) {
-   var selectedPriority by remember { mutableStateOf("") }
+    var selectedPriority by remember { mutableStateOf("") }
 
     Column(
         modifier

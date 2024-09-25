@@ -1,5 +1,6 @@
 package com.example.panicbutton.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,18 +40,22 @@ import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.panicbutton.viewmodel.DetailLog
+import com.example.panicbutton.component.ConfirmationButton
+import com.example.panicbutton.viewmodel.PanicButton
+import com.example.panicbutton.viewmodel.PanicButtonData
 
 @Composable
 fun DetailLogScreen(
     modifier: Modifier = Modifier,
     viewModel: ViewModel = viewModel(),
+    vModel: PanicButton = viewModel(),
     nomorRumah: String
 ) {
-    val detailLogData by viewModel.detailLogData.observeAsState(emptyList())
+    val detailLogData by viewModel.panicButtonData.observeAsState(emptyList())
 
     LaunchedEffect(nomorRumah) {
         viewModel.detailLog(nomorRumah)
+        Log.d("DetailLog", "Data: $detailLogData")
     }
 
     Box(
@@ -108,28 +117,35 @@ fun DetailLogScreen(
             Spacer(modifier = Modifier.height(21.dp))
             LazyColumn(
                 modifier
+                    .padding(bottom = 40.dp)
                     .fillMaxWidth()
                     .padding(horizontal = 26.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(detailLogData) { log ->
-                    DetailRekapItem(log = log)
+                    DetailRekapItem(log = log, vModel = vModel)
                 }
             }
         }
     }
 }
 
+
 @Composable
 fun DetailRekapItem(
-    log: DetailLog,
-    modifier: Modifier = Modifier
+    log: PanicButtonData,
+    modifier: Modifier = Modifier,
+    vModel: PanicButton = viewModel()
 ) {
+    var btnSelesai by remember {mutableStateOf(vModel.isLogCompleted(log.id))}
+
     Card(
         modifier
             .wrapContentHeight()
             .fillMaxWidth(),
-        colors = CardDefaults.cardColors(
+        colors = if (btnSelesai) CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.background_card)
+        ) else CardDefaults.cardColors(
             containerColor = Color.White
         ),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -141,8 +157,7 @@ fun DetailRekapItem(
         ) {
             Row(
                 modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .fillMaxWidth()
             ) {
                 Text(
                     text = log.nomor_rumah,
@@ -150,6 +165,7 @@ fun DetailRekapItem(
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.font2)
                 )
+                Spacer(modifier = Modifier.width(8.dp))
                 Column(
                     modifier
                         .wrapContentWidth()
@@ -169,20 +185,34 @@ fun DetailRekapItem(
                         color = Color.White
                     )
                 }
-                Text(
-                    text = log.waktu,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = colorResource(id = R.color.primary)
-                )
+                Box(
+                    modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Text(
+                        text = log.waktu,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = colorResource(id = R.color.primary)
+                    )
+                }
             }
             Text(
                 text = log.pesan,
                 fontSize = 12.sp,
                 color = colorResource(id = R.color.font3),
-                maxLines = 2,
                 style = TextStyle(lineHeight = 20.sp),
                 overflow = TextOverflow.Ellipsis
+            )
+            ConfirmationButton(
+                modifier = Modifier.align(Alignment.End),
+                onConfirm = {
+                    vModel.updateLogStatus(log.id, "selesai")
+                    vModel.simpanLogStatus(log.id, true)
+                    btnSelesai = true
+                },
+                enabled = !vModel.isLogCompleted(log.id)
             )
         }
     }

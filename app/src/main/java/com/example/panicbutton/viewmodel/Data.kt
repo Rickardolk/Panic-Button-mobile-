@@ -7,32 +7,15 @@ data class OnBoardingData(
     val desc: String
 )
 
-data class MonitorData(
-    val nomor_rumah: String,
-    val waktu: String,
-    val pesan: String,
-    val prioritas: String
-)
-
-data class LatestMonitor(
-    val nomor_rumah: String,
-    val waktu: String,
-    val pesan: String,
-    val prioritas: String
-)
-
-data class RekapData(
+data class PanicButtonData(
     val id: Int,
     val nomor_rumah: String,
     val waktu: String,
-    val status: String
+    val pesan: String,
+    val prioritas: String,
+    val status : String,
+    var isCompleted: Boolean = false
 )
 
-data class DetailLog(
-    val waktu: String,
-    val nomor_rumah: String,
-    val pesan: String,
-    val prioritas: String
-)
 
 

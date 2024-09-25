@@ -6,6 +6,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,14 +30,12 @@ import java.io.IOException
 
 class ViewModel : ViewModel() {
     private val apiService: ApiService = RetrofitClient.create()
-    private val _monitoringData = MutableLiveData<List<MonitorData>>()
-    private val _latestMonitor = MutableLiveData<List<LatestMonitor>>()
-    private val _detailLogData = MutableLiveData<List<DetailLog>>()
+    private val _panicButtonData = MutableLiveData<List<PanicButtonData>>()
+    private val _latestMonitor = MutableLiveData<List<PanicButtonData>>()
 
-    val monitoringData: LiveData<List<MonitorData>> = _monitoringData
-    val latestMonitor: LiveData<List<LatestMonitor>> = _latestMonitor
-    val detailLogData: LiveData<List<DetailLog>> = _detailLogData
-    val rekapData = MutableLiveData<List<RekapData>>()
+    val panicButtonData: LiveData<List<PanicButtonData>> = _panicButtonData
+    val latestMonitor: LiveData<List<PanicButtonData>> = _latestMonitor
+    val rekapData = MutableLiveData<List<PanicButtonData>>()
     val isLoading = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
 
@@ -144,15 +143,15 @@ class ViewModel : ViewModel() {
     fun monitoring() {
         val call = apiService.monitorService()
 
-        call.enqueue(object : Callback<List<MonitorData>> {
-            override fun onResponse(call: Call<List<MonitorData>>, response: Response<List<MonitorData>>) {
+        call.enqueue(object : Callback<List<PanicButtonData>> {
+            override fun onResponse(call: Call<List<PanicButtonData>>, response: Response<List<PanicButtonData>>) {
                 if (response.isSuccessful) {
-                    _monitoringData.postValue(response.body())
+                    _panicButtonData.postValue(response.body())
                 } else {
                     Log.e("MonitoringError", "Error: ${response.code()} - ${response.message()}")
                 }
             }
-            override fun onFailure(call: Call<List<MonitorData>>, t: Throwable) {
+            override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
                 Log.e("MonitoringError", "Failed to fetch data: ${t.localizedMessage}")
             }
         })
@@ -161,15 +160,15 @@ class ViewModel : ViewModel() {
     fun monitorLatest() {
         val call = apiService.latestMonitorService()
 
-        call.enqueue(object : Callback<List<LatestMonitor>> {
-            override fun onResponse(call: Call<List<LatestMonitor>>, response: Response<List<LatestMonitor>>) {
+        call.enqueue(object : Callback<List<PanicButtonData>> {
+            override fun onResponse(call: Call<List<PanicButtonData>>, response: Response<List<PanicButtonData>>) {
                 if (response.isSuccessful) {
                     _latestMonitor.postValue(response.body())
                 } else {
                     Log.e("MonitoringError", "Error: ${response.code()} - ${response.message()}")
                 }
             }
-            override fun onFailure(call: Call<List<LatestMonitor>>, t: Throwable) {
+            override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
                 Log.e("MonitoringError", "Failed to fetch data: ${t.localizedMessage}")
             }
         })
@@ -180,10 +179,10 @@ class ViewModel : ViewModel() {
         isLoading.value = true
         val call = apiService.rekapService()
 
-        call.enqueue(object : Callback<List<RekapData>> {
+        call.enqueue(object : Callback<List<PanicButtonData>> {
             override fun onResponse(
-                call: Call<List<RekapData>>,
-                response: Response<List<RekapData>>
+                call: Call<List<PanicButtonData>>,
+                response: Response<List<PanicButtonData>>
             ) {
                 isLoading.value = false
                 if (response.isSuccessful) {
@@ -194,7 +193,7 @@ class ViewModel : ViewModel() {
                     errorMessage.value = "GAgal mendapatkan data"
                 }
             }
-            override fun onFailure(call: Call<List<RekapData>>, t: Throwable) {
+            override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
                 Log.e("DataRekap", "gagal; mengambil data", t)
                 isLoading.value = false
                 errorMessage.value = t.message
@@ -206,29 +205,29 @@ class ViewModel : ViewModel() {
     fun detailLog(nomorRumah: String) {
         val call = apiService.detailLogService(nomorRumah)
 
-        call.enqueue(object : Callback<List<DetailLog>>{
+        call.enqueue(object : Callback<List<PanicButtonData>>{
             override fun onResponse(
-                call: Call<List<DetailLog>>,
-                response: Response<List<DetailLog>>
+                call: Call<List<PanicButtonData>>,
+                response: Response<List<PanicButtonData>>
             ) {
                 if (response.isSuccessful) {
-                    _detailLogData.value = response.body()
+                    _panicButtonData.value = response.body()
                 } else {
-                    _detailLogData.value = emptyList()
+                    _panicButtonData.value = emptyList()
                 }
             }
-            override fun onFailure(call: Call<List<DetailLog>>, t: Throwable) {
-                _detailLogData.value = emptyList()
+            override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
+                _panicButtonData.value = emptyList()
             }
         })
     }
 
     //fun utk latest rekap
     fun latestRekap(){
-        apiService.rekapService().enqueue(object : Callback<List<RekapData>> {
+        apiService.rekapService().enqueue(object : Callback<List<PanicButtonData>> {
             override fun onResponse(
-                call: Call<List<RekapData>>,
-                response: Response<List<RekapData>>
+                call: Call<List<PanicButtonData>>,
+                response: Response<List<PanicButtonData>>
             ) {
                 if (response.isSuccessful) {
                     rekapData.value = response.body()?.take(6)
@@ -236,7 +235,7 @@ class ViewModel : ViewModel() {
                     errorMessage.value = "Error retrieving data"
                 }
             }
-            override fun onFailure(call: Call<List<RekapData>>, t: Throwable) {
+            override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
                 errorMessage.value = t.message
             }
         })
@@ -248,6 +247,11 @@ class ViewModel : ViewModel() {
 //class Panic Button
 class PanicButton (application: Application) : AndroidViewModel(application) {
     private val client = OkHttpClient()
+    private val sharedPreferences = application.getSharedPreferences("log_preferences", Context.MODE_PRIVATE)
+    private val apiService: ApiService = RetrofitClient.create()
+    private val _detailLogData = MutableLiveData<List<PanicButtonData>>()
+    private val _statusMap = mutableStateMapOf<Int, Boolean>()
+    private val _panicButtonData = MutableLiveData<List<PanicButtonData>>()
 
     fun toggleDevice(
         on: Boolean,
@@ -291,6 +295,56 @@ class PanicButton (application: Application) : AndroidViewModel(application) {
                 }
             }
         })
+    }
+
+    fun simpanLogStatus(id: Int, status: Boolean) {
+        sharedPreferences.edit().putBoolean("log_$id", status).apply()
+    }
+    fun ambilLogStatus(id: Int): Boolean {
+        return sharedPreferences.getBoolean("log_$id", false)
+    }
+
+    fun updateLogStatus(id: Int, status: String) {
+        Log.d("UpdateStatus", "Mengirim ID: $id, Status: $status")
+        val call = apiService.updateStatusService(id, status)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { responseBody ->
+                        val responseString = responseBody.string()
+                        Log.d("UpdateStatus", "Respons dari server: $responseString")
+
+                        if (responseString.contains("\"success\":true")) {
+                            _statusMap[id] = true
+                            _detailLogData.value = _detailLogData.value?.map {
+                                if (it.id == id) {
+                                    it.copy(status = status)
+                                } else it
+                            }
+                            simpanLogStatus(id, true)
+                            Log.d("UpdateStatus", "Status berhasil diupdate")
+                            _panicButtonData.value = _panicButtonData.value?.map {
+                                if (it.id == id) {
+                                    it.copy(status = "selesai")
+                                } else it
+                            }
+                        } else {
+                            Log.e("UpdateStatus", "Update gagal, server merespon: $responseString")
+                        }
+                    } ?: run {
+                        Log.e("UpdateStatus", "Response body kosong")
+                    }
+                } else {
+                    Log.e("UpdateStatus", "Gagal mengupdate status: ${response.errorBody()?.string()}")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("UpdateStatus", "Error saat mengupdate status: ${t.message}")
+            }
+        })
+    }
+    fun isLogCompleted(id: Int): Boolean {
+        return ambilLogStatus(id)
     }
 }
 

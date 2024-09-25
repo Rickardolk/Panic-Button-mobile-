@@ -1,15 +1,18 @@
 package com.example.panicbutton.component
 
-
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
@@ -19,10 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -30,15 +36,22 @@ import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.navigation.NavController
+import com.example.panicbutton.viewmodel.PanicButton
 import kotlinx.coroutines.delay
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.panicbutton.viewmodel.PanicButtonData
 
 @Composable
 fun LatestMonitorItem(
     modifier: Modifier = Modifier,
     viewModel: ViewModel,
+    log: PanicButtonData,
+    vModel: PanicButton = viewModel(),
     navController: NavController
 ) {
     val monitoringData by viewModel.latestMonitor.observeAsState(emptyList())
+    val btnSelesai by remember { mutableStateOf(vModel.isLogCompleted(log.id)) }
+
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -103,19 +116,42 @@ fun LatestMonitorItem(
                         }
                         Text(
                             text = log.waktu,
-                            fontSize = 18.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
                             color = colorResource(id = R.color.font)
                         )
                     }
                     Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = log.pesan,
-                        fontSize = 12.sp,
-                        color = colorResource(id = R.color.font3),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+
+                    Box(
+                        modifier
+                            .wrapContentSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = log.pesan,
+                            fontSize = 12.sp,
+                            color = colorResource(id = R.color.font3),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(end = 24.dp)
+                        )
+                        if (btnSelesai) Image(
+                            painter = painterResource(id = R.drawable.ic_done),
+                            contentDescription = "ic_done",
+                            modifier
+                                .size(24.dp)
+                                .align(Alignment.CenterEnd)
+                        ) else Image(
+                            painter = painterResource(id = R.drawable.ic_process),
+                            contentDescription = "ic_done",
+                            modifier
+                                .size(20.dp)
+                                .align(Alignment.CenterEnd)
+                        )
+                    }
                     if (index < monitoringData.size - 1) {
                         HorizontalDivider(
                             modifier = Modifier.padding(top = 8.dp, bottom = 10.dp),

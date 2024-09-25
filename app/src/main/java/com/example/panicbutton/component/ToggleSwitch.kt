@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
@@ -57,6 +58,7 @@ fun ToggleSwitch(
     var showDialog by remember { mutableStateOf(false) }
     var userInput by remember { mutableStateOf("") }
     var selectedPriority by remember {mutableStateOf("")}
+    var showError by remember {mutableStateOf(false)}
     val context = LocalContext.current
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val nomorRumah = sharedPref.getString("nomorRumah", "")
@@ -85,7 +87,7 @@ fun ToggleSwitch(
                     isOn = false
                     isLoading = true
                     if (!nomorRumah.isNullOrEmpty()) {
-                        viewModel.toggleDevice(isOn, nomorRumah ?: "","", "", snackbarHostState) {
+                        viewModel.toggleDevice(isOn, nomorRumah,"", "", snackbarHostState) {
                             isLoading = false
                         }
                     } else {
@@ -129,6 +131,8 @@ fun ToggleSwitch(
         )
     }
     if (showDialog) {
+        userInput = ""
+        selectedPriority = ""
         AlertDialog(
             onDismissRequest = { showDialog = false },
             title = {
@@ -169,6 +173,14 @@ fun ToggleSwitch(
                             selectedPriority = priority
                         }
                     )
+                    if (showError) {
+                        Text(
+                            text = "Silahkan pilih tombol prioritas",
+                            color = colorResource(id = R.color.darurat),
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
                 }
             },
             containerColor = Color.White,
@@ -177,17 +189,30 @@ fun ToggleSwitch(
                     modifier = Modifier
                         .width(130.dp),
                     onClick = {
-                        isOn = true
-                        isLoading = true
-                        showDialog = false
-                        if (!nomorRumah.isNullOrEmpty()) {
-                            viewModel.toggleDevice(isOn, nomorRumah ?: "",userInput, selectedPriority, snackbarHostState) {
-                                isLoading = false
-                                sendNotification(context, "PANIC BUTTON", "Buzzer Telah Berbunyi")
-                            }
+                        if (selectedPriority.isEmpty()) {
+                            showError = true
                         } else {
-                            Log.e("ToggleSwitch", "Nomor rumah is null or empty")
-                            isLoading = false
+                            showError = false
+                            isOn = true
+                            isLoading = true
+                            showDialog = false
+                            if (!nomorRumah.isNullOrEmpty()) {
+                                viewModel.toggleDevice(
+                                    isOn,
+                                    nomorRumah,
+                                    userInput,
+                                    selectedPriority,
+                                    snackbarHostState
+                                ) {
+                                    isLoading = false
+                                    sendNotification(context, "PANIC BUTTON", "Buzzer Telah Berbunyi")
+                                    userInput = ""
+                                    selectedPriority = ""
+                                }
+                            } else {
+                                Log.e("ToggleSwitch", "Nomor rumah is null or empty")
+                                isLoading = false
+                            }
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -224,7 +249,7 @@ fun ToggleSwitch(
             isOn = false
             isLoading = true
             if (!nomorRumah.isNullOrEmpty()) {
-                viewModel.toggleDevice(isOn, nomorRumah ?: "","","", snackbarHostState) {
+                viewModel.toggleDevice(isOn, nomorRumah,"","", snackbarHostState) {
                     isLoading = false
                 }
             } else {

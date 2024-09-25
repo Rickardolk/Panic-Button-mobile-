@@ -15,6 +15,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.LatestMonitorItem
 import com.example.panicbutton.component.MonitorItem
+import kotlinx.coroutines.delay
 
 @Composable
 fun AdminDashboard(
@@ -40,6 +44,15 @@ fun AdminDashboard(
     navController: NavController,
     viewModel: ViewModel = viewModel()
 ) {
+    val monitor by viewModel.panicButtonData.observeAsState(emptyList())
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            viewModel.monitoring()
+            delay(2000)
+        }
+    }
+
     Column(
         modifier
             .fillMaxSize()
@@ -59,10 +72,12 @@ fun AdminDashboard(
         )
         Spacer(modifier = Modifier.height(28.dp))
 
-        MonitorItem(
-            viewModel = viewModel,
-            navController = navController
-        )
+        monitor.forEach{ log ->
+            MonitorItem(
+                log = log,
+                navController = navController
+            )
+        }
         Spacer(modifier = Modifier.height(24.dp))
         Column(
             modifier
@@ -88,10 +103,13 @@ fun AdminDashboard(
                     color = colorResource(id = R.color.primary)
                 )
             }
-            LatestMonitorItem(
-                viewModel = viewModel,
-                navController = navController
-            )
+            monitor.forEach{ log->
+                LatestMonitorItem(
+                    log = log,
+                    navController = navController,
+                    viewModel = viewModel
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {

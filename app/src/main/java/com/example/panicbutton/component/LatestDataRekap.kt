@@ -40,11 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.panicbutton.viewmodel.RekapData
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.panicbutton.R
+import com.example.panicbutton.viewmodel.PanicButtonData
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -153,7 +153,7 @@ fun LatestDataRekap(
 
 @Composable
 fun RekapTable(
-    log: RekapData,
+    log: PanicButtonData,
     viewModel: ViewModel = viewModel(),
     navController: NavController
 ) {

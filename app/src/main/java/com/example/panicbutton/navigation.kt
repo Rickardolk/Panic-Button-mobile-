@@ -72,7 +72,8 @@ fun MyApp() {
             UserDashboard(
                 snackbarHostState = SnackbarHostState(),
                 navController = navController,
-                context = context
+                context = context,
+                viewModel = viewModel
             )
         }
         composable("detail_log_screen/{nomorRumah}") {backStackEntry ->

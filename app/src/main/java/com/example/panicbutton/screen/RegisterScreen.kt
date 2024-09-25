@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -86,6 +88,10 @@ fun RegisterScreen(
                     label = { Text(text = "Nama")},
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_username),
@@ -107,6 +113,10 @@ fun RegisterScreen(
                     label = { Text(text = "Nomor Rumah") },
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_home),

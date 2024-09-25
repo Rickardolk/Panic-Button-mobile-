@@ -1,9 +1,6 @@
 package com.example.panicbutton.api
 
-import com.example.panicbutton.viewmodel.DetailLog
-import com.example.panicbutton.viewmodel.LatestMonitor
-import com.example.panicbutton.viewmodel.MonitorData
-import com.example.panicbutton.viewmodel.RekapData
+import com.example.panicbutton.viewmodel.PanicButtonData
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
@@ -29,16 +26,23 @@ interface ApiService {
     ): Call<ResponseBody>
 
     @GET("monitor.php")
-    fun monitorService(): Call<List<MonitorData>>
+    fun monitorService(): Call<List<PanicButtonData>>
 
     @GET("latest_monitor.php")
-    fun latestMonitorService(): Call<List<LatestMonitor>>
+    fun latestMonitorService(): Call<List<PanicButtonData>>
 
     @GET("rekap.php")
-    fun rekapService(): Call<List<RekapData>>
+    fun rekapService(): Call<List<PanicButtonData>>
 
     @GET("detail_log.php")
     fun detailLogService(
         @Query("nomor_rumah") nomorRumah: String
-    ): Call<List<DetailLog>>
+    ): Call<List<PanicButtonData>>
+
+    @FormUrlEncoded
+    @POST("update_status.php")
+    fun updateStatusService(
+        @Field("id") id: Int,
+        @Field("status") status: String
+    ): Call<ResponseBody>
 }
