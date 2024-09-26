@@ -3,6 +3,7 @@ package com.example.panicbutton.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,20 +16,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.DataRekapItem
+import com.example.panicbutton.component.SearchDetailRekap
 
 @Composable
 fun DataRekapScreen(
@@ -39,7 +42,8 @@ fun DataRekapScreen(
     val rekapData by viewModel.rekapData.observeAsState(emptyList())
     val isLoading by viewModel.isLoading.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState(null)
-
+    var searchQuery by remember {mutableStateOf("")}
+    val filterSearch = rekapData.filter { it.nomor_rumah.contains(searchQuery, ignoreCase = true) }
 
     LaunchedEffect(Unit) {
         viewModel.fetchRekapData()
@@ -55,7 +59,7 @@ fun DataRekapScreen(
                 .fillMaxWidth()
                 .height(180.dp)
                 .background(colorResource(id = R.color.primary))
-                .padding(top = 40.dp),
+                .padding(top = 40.dp, start = 26.dp, end = 26.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -63,6 +67,16 @@ fun DataRekapScreen(
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
+            )
+            Spacer(modifier.height(26.dp))
+            SearchDetailRekap(
+                query = searchQuery,
+                onQueryChange = { newQuery ->
+                    searchQuery = newQuery
+                },
+                onSearch = {
+
+                }
             )
         }
         Column(
@@ -79,7 +93,7 @@ fun DataRekapScreen(
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(rekapData) { log ->
+                    items(filterSearch) { log ->
                         DataRekapItem( log, navController = navController)
                     }
                 }
@@ -88,8 +102,4 @@ fun DataRekapScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun Liat() {
-    DataRekapScreen(navController = rememberNavController())
-}
+

@@ -120,7 +120,7 @@ fun DetailLogScreen(
                     .padding(bottom = 40.dp)
                     .fillMaxWidth()
                     .padding(horizontal = 26.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(detailLogData) { log ->
                     DetailRekapItem(log = log, vModel = vModel)
@@ -142,7 +142,8 @@ fun DetailRekapItem(
     Card(
         modifier
             .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(bottom = 4.dp),
         colors = if (btnSelesai) CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.background_card)
         ) else CardDefaults.cardColors(

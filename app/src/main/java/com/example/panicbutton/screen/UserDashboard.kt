@@ -54,7 +54,7 @@ fun UserDashboard(
 
     LaunchedEffect(Unit) {
         while (true){
-            viewModel.fetchRekapData()
+            viewModel.userHIstory(context)
             delay(2000)
         }
     }
@@ -195,9 +195,7 @@ fun UserDashboard(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+                LazyColumn{
                     items(rekapData) { log ->
                         UserHistory( log = log)
                     }

@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,8 +24,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +40,15 @@ fun SearchDetailRekap(
 ) {
    Box(
        modifier
-           .shadow(elevation = 4.dp)
+           .shadow(
+               elevation = 4.dp,
+               shape = RoundedCornerShape(24.dp),
+               clip = false,
+               ambientColor = Color.LightGray,
+               spotColor = Color.Black.copy(alpha = 0.5f)
+           )
+           .offset(y = (-2).dp)
+           .padding(bottom = 8.dp)
            .fillMaxWidth()
            .clip(RoundedCornerShape(24.dp))
            .background(color = Color.White)
@@ -44,26 +56,33 @@ fun SearchDetailRekap(
        Row(
            modifier
                .fillMaxWidth()
-               .padding(horizontal = 16.dp, vertical = 8.dp),
+               .padding(horizontal = 16.dp),
            verticalAlignment = Alignment.CenterVertically
        ) {
            TextField(
                value = query,
                onValueChange = onQueryChange,
-               placeholder = { Text("Search")},
+               placeholder = {
+                   Text(
+                       "Search",
+                       color = colorResource(id = R.color.font3),
+                       style = TextStyle(lineHeight = 20.sp)
+                   )
+               },
                colors = TextFieldDefaults.textFieldColors(
                    containerColor = Color.Transparent,
                    focusedIndicatorColor = Color.Transparent,
                    unfocusedIndicatorColor = Color.Transparent,
-                   focusedTextColor = colorResource(id = R.color.font),
+                   focusedTextColor = colorResource(id = R.color.font2),
                    unfocusedTextColor = colorResource(id = R.color.font2),
                    disabledIndicatorColor = Color.Transparent
 
                ),
                singleLine = true,
                modifier = Modifier
-                   .weight(1f)
-                   .padding(end = 8.dp)
+                   .height(46.dp)
+                   .weight(1f),
+               textStyle = TextStyle(lineHeight = 20.sp)
            )
            IconButton(
                onClick = onSearch,

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -125,7 +126,7 @@ fun LatestMonitorItem(
 
                     Box(
                         modifier
-                            .wrapContentSize(),
+                            .fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -138,6 +139,7 @@ fun LatestMonitorItem(
                                 .align(Alignment.CenterStart)
                                 .padding(end = 24.dp)
                         )
+                        Spacer(modifier = Modifier.matchParentSize())
                         if (btnSelesai) Image(
                             painter = painterResource(id = R.drawable.ic_done),
                             contentDescription = "ic_done",

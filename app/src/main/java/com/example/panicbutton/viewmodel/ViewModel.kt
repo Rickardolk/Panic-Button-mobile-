@@ -240,6 +240,32 @@ class ViewModel : ViewModel() {
             }
         })
     }
+
+    //fun UserHistory
+    fun userHIstory(context: Context){
+        val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        val nomorRumah = sharedPref.getString("nomorRumah", null)
+
+        nomorRumah?.let {
+            val call = apiService.detailLogService(it)
+            call.enqueue(object : Callback<List<PanicButtonData>>{
+                override fun onResponse(
+                    call: Call<List<PanicButtonData>>,
+                    response: Response<List<PanicButtonData>>
+                ) {
+                    if (response.isSuccessful) {
+                        rekapData.value = response.body()
+                    } else {
+                        rekapData.value = emptyList()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
+                    rekapData.value = emptyList()
+                }
+            })
+        }
+    }
 }
 
 
@@ -297,6 +323,7 @@ class PanicButton (application: Application) : AndroidViewModel(application) {
         })
     }
 
+    // function update status
     fun simpanLogStatus(id: Int, status: Boolean) {
         sharedPreferences.edit().putBoolean("log_$id", status).apply()
     }

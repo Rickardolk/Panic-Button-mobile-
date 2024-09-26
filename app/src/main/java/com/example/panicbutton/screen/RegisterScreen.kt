@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -94,15 +95,16 @@ fun RegisterScreen(
                     ),
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_username),
-                            contentDescription = "ic_nama"
+                            painter = painterResource(id = R.drawable.ic_user),
+                            contentDescription = "ic_nama",
+                            modifier = Modifier.size(24.dp)
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
                         focusedLeadingIconColor = colorResource(id = R.color.font),
-                        unfocusedLeadingIconColor = colorResource(id = R.color.defauld),
+                        unfocusedLeadingIconColor = colorResource(id = R.color.default_color),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )
@@ -120,14 +122,15 @@ fun RegisterScreen(
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_home),
-                            contentDescription = "ic_home"
+                            contentDescription = "ic_home",
+                            modifier = Modifier.size(24.dp)
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = colorResource(id = R.color.font),
                         focusedLabelColor = colorResource(id = R.color.font),
                         focusedLeadingIconColor = colorResource(id = R.color.font),
-                        unfocusedLeadingIconColor = colorResource(id = R.color.defauld),
+                        unfocusedLeadingIconColor = colorResource(id = R.color.default_color),
                         cursorColor = colorResource(id = R.color.font)
                     )
                 )

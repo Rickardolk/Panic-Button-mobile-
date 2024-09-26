@@ -29,13 +29,14 @@ import com.example.panicbutton.viewmodel.PanicButtonData
 fun UserHistory(
     modifier: Modifier = Modifier,
     log: PanicButtonData
-
 ) {
+
     Card(
         modifier
             .padding(horizontal = 24.dp)
             .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),

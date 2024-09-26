@@ -1,6 +1,7 @@
 package com.example.panicbutton.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,13 +48,14 @@ fun OutlinedTextFieldPass(
             focusedBorderColor = colorResource(id = R.color.font),
             focusedLabelColor = colorResource(id = R.color.font),
             focusedLeadingIconColor = colorResource(id = R.color.font),
-            unfocusedLeadingIconColor = colorResource(id = R.color.defauld),
+            unfocusedLeadingIconColor = colorResource(id = R.color.default_color),
             cursorColor = colorResource(id = R.color.font)
         ),
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_password),
-                contentDescription = "ic_password"
+                contentDescription = "ic_password",
+                modifier = Modifier.size(24.dp)
                 )
         },
         trailingIcon = {
@@ -72,7 +74,7 @@ fun OutlinedTextFieldPass(
                     painter = icon,
                     contentDescription = if (passwordVisible) "Hide Password" else "Show Password",
                     tint = if (passwordVisible) colorResource(id = R.color.font) else colorResource(
-                        id = R.color.defauld
+                        id = R.color.default_color
                     )
                 )
             }
