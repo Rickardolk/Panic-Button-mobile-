@@ -47,7 +47,6 @@ fun SearchDetailRekap(
                ambientColor = Color.LightGray,
                spotColor = Color.Black.copy(alpha = 0.5f)
            )
-           .offset(y = (-2).dp)
            .padding(bottom = 8.dp)
            .fillMaxWidth()
            .clip(RoundedCornerShape(24.dp))
