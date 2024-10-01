@@ -45,4 +45,28 @@ interface ApiService {
         @Field("id") id: Int,
         @Field("status") status: String
     ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("upload_profile_image.php")
+    fun uploadProfileImage(
+        @Field("nomorRumah") nomorRumah: String,
+        @Field("image_profile") imageProfile: String
+    ): Call<ResponseBody>
+
+    @GET("get_profile_image.php")
+    fun getProfileImage(
+        @Query("nomorRumah") nomorRumah: String
+    ): Call<PanicButtonData>
+
+    @FormUrlEncoded
+    @POST("upload_cover_image.php")
+    fun uploadCoverImage(
+        @Field("nomorRumah") nomorRumah: String,
+        @Field("image_cover") imageCover: String
+    ): Call<ResponseBody>
+
+    @GET("get_cover_image.php")
+    fun getCoverImage(
+        @Query("nomorRumah") nomorRumah: String
+    ): Call<PanicButtonData>
 }

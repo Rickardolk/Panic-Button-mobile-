@@ -24,4 +24,6 @@
     <color name="alert_kembali_button">#1F1D1B20</color>
     <color name="alert_kembali_text">#611D1B20</color>
     <color name="background_card">#EBEBEB</color>
+    <color name="ic_back_color">#40C3C3C3</color>
+    <color name="ic_edit">#40C3C3C3</color>
 </resources>

@@ -3,6 +3,7 @@ package com.example.panicbutton.viewmodel
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.SnackbarHostState
@@ -26,6 +27,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
+import android.util.Base64
 
 
 class ViewModel : ViewModel() {
@@ -265,6 +267,89 @@ class ViewModel : ViewModel() {
                 }
             })
         }
+    }
+
+    // function utk upload image ke database
+    fun uploadImageToDatabase(
+        context: Context,
+        imageUri: Uri,
+        uploadType: String,
+        onSuccess: (String) -> Unit
+    ) {
+        val contentResolver = context.contentResolver
+        val inputStream = contentResolver.openInputStream(imageUri)
+
+        if (inputStream != null) {
+            val imageBytes = inputStream.readBytes()
+            val encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT)
+            val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+            val nomorRumah = sharedPref.getString("nomorRumah", null)
+
+            if (nomorRumah != null) {
+                val call = when (uploadType) {
+                    "profile" -> apiService.uploadProfileImage(nomorRumah, encodedImage)
+                    "cover" -> apiService.uploadCoverImage(nomorRumah, encodedImage)
+                    else -> null
+                }
+
+                call?.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val newImagePath = response.body()?.string()
+                            if (newImagePath != null) {
+                                Toast.makeText(context, "Gambar berhasil di upload", Toast.LENGTH_SHORT).show()
+                                onSuccess(newImagePath)
+                            } else {
+                            }
+                        } else {
+                            Toast.makeText(context, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        } else {
+            Toast.makeText(context, "Gagal membaca gambar", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // fun utk get profile image
+    fun getProfileImage(nomorRumah: String, onResult: (String?) -> Unit) {
+        val call = apiService.getProfileImage(nomorRumah)
+        call.enqueue(object : Callback<PanicButtonData> {
+            override fun onResponse(call: Call<PanicButtonData>, response: Response<PanicButtonData>) {
+                if (response.isSuccessful) {
+                    onResult(response.body()?.image_profile)
+                } else {
+                    onResult(null)
+                }
+            }
+
+            override fun onFailure(call: Call<PanicButtonData>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
+
+    //fun utk get cover image
+    fun getCoverImage(nomorRumah: String, onResult: (String?) -> Unit) {
+        val call = apiService.getCoverImage(nomorRumah)
+        call.enqueue(object : Callback<PanicButtonData> {
+            override fun onResponse(call: Call<PanicButtonData>, response: Response<PanicButtonData>) {
+                if (response.isSuccessful) {
+                    onResult(response.body()?.image_cover)
+                } else {
+                    onResult(null)
+                }
+            }
+
+            override fun onFailure(call: Call<PanicButtonData>, t: Throwable) {
+                onResult(null)
+            }
+        })
     }
 }
 

@@ -14,8 +14,13 @@ data class PanicButtonData(
     val pesan: String,
     val prioritas: String,
     val status : String,
+    val image_profile: String?,
+    val image_cover: String?,
     var isCompleted: Boolean = false
 )
+
+
+
 
 
 
