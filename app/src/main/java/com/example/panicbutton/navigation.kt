@@ -12,9 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.OnBoarding
+import com.example.panicbutton.screen.DetailRekapScreen2
 import com.example.panicbutton.screen.UserDashboard
 import com.example.panicbutton.screen.UserProfileScreen
-import com.example.panicbutton.screen.DetailLogScreen
 import com.example.panicbutton.screen.RegisterScreen
 import com.example.panicbutton.screen.AdminDashboard
 import com.example.panicbutton.screen.LoginScreen
@@ -79,9 +79,11 @@ fun MyApp() {
         }
         composable("detail_log_screen/{nomorRumah}") {backStackEntry ->
             val nomorRumah = backStackEntry.arguments?.getString("nomorRumah")
-            DetailLogScreen(
+            DetailRekapScreen2(
                 nomorRumah = nomorRumah ?:"",
-                viewModel = viewModel
+                viewModel = viewModel,
+                context = context,
+                navController = navController
             )
         }
         composable("user_profile") {

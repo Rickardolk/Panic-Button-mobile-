@@ -1,8 +1,13 @@
 package com.example.panicbutton.api
 
+import com.example.panicbutton.viewmodel.GetDetailRekap
+import com.example.panicbutton.viewmodel.KeteranganResponse
 import com.example.panicbutton.viewmodel.PanicButtonData
+import com.example.panicbutton.viewmodel.UpdateKeteranganRequest
+import com.example.panicbutton.viewmodel.UpdateKeteranganResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -34,7 +39,7 @@ interface ApiService {
     @GET("rekap.php")
     fun rekapService(): Call<List<PanicButtonData>>
 
-    @GET("detail_log.php")
+    @GET("detail_rekap.php")
     fun detailLogService(
         @Query("nomor_rumah") nomorRumah: String
     ): Call<List<PanicButtonData>>
@@ -69,4 +74,20 @@ interface ApiService {
     fun getCoverImage(
         @Query("nomorRumah") nomorRumah: String
     ): Call<PanicButtonData>
+
+    @POST("update_keterangan.php")
+    fun updateKeterangan(
+        @Body updateKeteranganRequest: UpdateKeteranganRequest
+    ): Call<UpdateKeteranganResponse>
+
+    @GET("keterangan_user.php")
+    fun getKeteranganUser(
+        @Query("nomorRumah") nomorRumah: String
+    ): Call<KeteranganResponse>
+
+    @GET("get_detail_rekap.php")
+    fun getDetailRekap(
+        @Query("nomor_rumah") nomorRumah: String
+    ): Call<GetDetailRekap>
+
 }

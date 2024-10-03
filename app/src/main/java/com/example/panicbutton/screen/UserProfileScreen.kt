@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -40,14 +43,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,6 +59,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.request.CachePolicy
+import com.example.panicbutton.component.KeteranganUser
 import kotlinx.coroutines.delay
 
 @Composable
@@ -94,14 +95,6 @@ fun UserProfileScreen(
 
     }
 
-    val listItems = listOf(
-        Pair(R.drawable.empty_image, "Rumah 1"),
-        Pair(R.drawable.empty_image, "Rumah 2"),
-        Pair(R.drawable.empty_image, "Rumah 3"),
-        Pair(R.drawable.empty_image, "Rumah 4"),
-        Pair(R.drawable.empty_image, "Rumah 5"),
-        Pair(R.drawable.empty_image, "Rumah 6")
-    )
     LaunchedEffect(nomorRumah) {
         while (true) {
             if (nomorRumah != null) {
@@ -122,7 +115,7 @@ fun UserProfileScreen(
                     }
                 }
             }
-            delay(2000)
+            delay(20000)
         }
     }
 
@@ -181,8 +174,8 @@ fun UserProfileScreen(
                         .clip(CircleShape),
                     onClick = { coverLauncher.launch("image/*") },
                     colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = colorResource(id = R.color.primary),
-                        contentColor = Color.White
+                        containerColor = colorResource(id = R.color.ic_back_color),
+                        contentColor = colorResource(id = R.color.primary)
                     )
                 ) {
                     Icon(
@@ -271,7 +264,7 @@ fun UserProfileScreen(
                         .clickable { profileLauncher.launch("image/*") },
                     painter = painterResource(id = R.drawable.ic_edit),
                     contentDescription = "ic_edit",
-                    tint = colorResource(id = R.color.font)
+                    tint = colorResource(id = R.color.primary)
                 )
             }
         }
@@ -279,7 +272,7 @@ fun UserProfileScreen(
             modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding( top = 260.dp)
+                .padding(top = 260.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -290,76 +283,85 @@ fun UserProfileScreen(
                     fontSize = 14.sp,
                     color = Color.White
                 )
-                Box(
+                KeteranganUser(
+                    modifier,
+                    context = context
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Column(
                     modifier
-                        .height(130.dp)
                         .fillMaxWidth()
-                        .background(Color.White)
+                        .wrapContentHeight()
+                        .padding(start = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        modifier = Modifier.padding(24.dp),
-                        text = stringResource(id = R.string.Keterangan),
-                        color = colorResource(id = R.color.font2),
-                        fontSize = 12.sp,
-                        style = TextStyle(lineHeight = 16.sp)
-
+                        text = "Pengaturan",
+                        fontSize = 14.sp,
+                        color = Color.White
                     )
-                    Column(
-                        modifier
-                            .height(80.dp)
-                            .fillMaxWidth()
-                            .background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color.Transparent,
-                                        Color.White
-                                    )
-                                )
-                            )
-                            .align(Alignment.BottomCenter)
-                            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 12.dp),
-                        verticalArrangement = Arrangement.Bottom
+                    TextButton(
+                        modifier = Modifier,
+                        onClick = { /*TODO*/ },
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(id = R.color.ic_back_color)
+                        )
                     ) {
-                        Row(
-                            modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            TextButton(
-                                modifier = Modifier
-                                    .wrapContentSize(),
-                                onClick = { /*TODO*/ },
-                            ) {
-                                Text(
-                                    text = "Selengkapnya",
-                                    color = colorResource(id = R.color.font2)
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_arrow_right),
-                                    contentDescription = "ic_arrow_right",
-                                    tint = colorResource(id = R.color.font2)
-                                )
-                            }
-                        }
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_language),
+                            contentDescription = "ic_language",
+                            tint = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Bahasa",
+                            color = Color.White,
+                            fontSize = 12.sp
+                        )
                     }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    modifier = Modifier.padding(start = 24.dp),
-                    text = "Foto Rumah",
-                    fontSize = 14.sp,
-                    color = Color.White
-                )
-                LazyRow(
-                    modifier
-                        .fillMaxSize()
-                        .padding(start = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(listItems) { _ ->
-                        CardFotoRumah()
+                    TextButton(
+                        modifier = Modifier,
+                        onClick = { /*TODO*/ },
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(id = R.color.ic_back_color)
+                        )
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_notification),
+                            contentDescription = "ic_language",
+                            tint = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Notifikasi",
+                            color = Color.White,
+                            fontSize = 12.sp
+                        )
+                    }
+                    TextButton(
+                        modifier = Modifier,
+                        onClick = { /*TODO*/ },
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(id = R.color.ic_back_color)
+                        )
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_help),
+                            contentDescription = "ic_language",
+                            tint = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Bantuan",
+                            color = Color.White,
+                            fontSize = 12.sp
+                        )
                     }
                 }
             }
@@ -374,32 +376,4 @@ private fun Liat() {
         context = LocalContext.current,
         navController = rememberNavController()
     )
-}
-
-@Composable
-fun CardFotoRumah(
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier
-            .height(196.dp)
-            .width(256.dp)
-            .border(
-                width = 4.dp,
-                color = Color.White,
-                shape = RoundedCornerShape(16.dp)
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Image(
-            modifier = Modifier
-                .fillMaxSize(),
-            painter = painterResource(id = R.drawable.empty_image),
-            contentDescription = null
-        )
-    }
 }

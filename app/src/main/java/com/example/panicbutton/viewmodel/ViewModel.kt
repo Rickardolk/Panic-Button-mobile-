@@ -40,6 +40,8 @@ class ViewModel : ViewModel() {
     val rekapData = MutableLiveData<List<PanicButtonData>>()
     val isLoading = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
+    val keterangan = MutableLiveData<String>()
+    val getRekapData = MutableLiveData<List<GetDetailRekap>>()
 
 
     // function utk registrasi
@@ -224,6 +226,30 @@ class ViewModel : ViewModel() {
         })
     }
 
+    fun getDetailRekap(nomorRumah: String){
+        isLoading.value = true
+        apiService.getDetailRekap(nomorRumah).enqueue(object : Callback<GetDetailRekap> {
+            override fun onResponse(
+                call: Call<GetDetailRekap>,
+                response: Response<GetDetailRekap>
+            ) {
+                isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    val rekap = response.body()
+                    Log.d("API Response", rekap.toString())
+                    getRekapData.value = listOf(rekap!!)
+                } else {
+                    errorMessage.value = "Gagal mengambil detail rekap"
+                }
+            }
+
+            override fun onFailure(call: Call<GetDetailRekap>, t: Throwable) {
+                isLoading.value = false
+                errorMessage.value = t.message
+            }
+        })
+    }
+
     //fun utk latest rekap
     fun latestRekap(){
         apiService.rekapService().enqueue(object : Callback<List<PanicButtonData>> {
@@ -300,6 +326,7 @@ class ViewModel : ViewModel() {
                                 Toast.makeText(context, "Gambar berhasil di upload", Toast.LENGTH_SHORT).show()
                                 onSuccess(newImagePath)
                             } else {
+                                Toast.makeText(context,"Gagal", Toast.LENGTH_SHORT).show()
                             }
                         } else {
                             Toast.makeText(context, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
@@ -348,6 +375,51 @@ class ViewModel : ViewModel() {
 
             override fun onFailure(call: Call<PanicButtonData>, t: Throwable) {
                 onResult(null)
+            }
+        })
+    }
+
+    //fun utk upload keterangan ke database
+    fun updateKeterangan(nomorRumah: String, keterangan: String) {
+        val request = UpdateKeteranganRequest(nomorRumah, keterangan)
+
+        val call = RetrofitClient.create().updateKeterangan(request)
+        call.enqueue(object : Callback<UpdateKeteranganResponse> {
+            override fun onResponse(
+                call: Call<UpdateKeteranganResponse>,
+                response: Response<UpdateKeteranganResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("UpdateKeterangan", "Response: ${response.body()}")
+                } else {
+                    Log.d("UpdateKeterangan", "Error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateKeteranganResponse>, t: Throwable) {
+                Log.d("UpdateKeterangan", "Failure: ${t.message}")
+            }
+        })
+    }
+
+    // fun menampilkan keteragan user
+    fun getKeteranganUser(nomorRumah: String) {
+        val call = apiService.getKeteranganUser(nomorRumah)
+        call.enqueue(object : Callback<KeteranganResponse> {
+            override fun onResponse(call: Call<KeteranganResponse>, response: Response<KeteranganResponse>) {
+                if (response.isSuccessful) {
+                    val keteranganResponse = response.body()
+                    if (keteranganResponse != null && keteranganResponse.status == "success") {
+                        keterangan.value = keteranganResponse.keterangan
+                    } else {
+                        errorMessage.value = "Data tidak ditemukan"
+                    }
+                } else {
+                    errorMessage.value = "Gagal mengambil data"
+                }
+            }
+            override fun onFailure(call: Call<KeteranganResponse>, t: Throwable) {
+                errorMessage.value = "Error: ${t.message}"
             }
         })
     }

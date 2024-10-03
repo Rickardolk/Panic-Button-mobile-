@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Panic Button</string>
-    <string name="ipAdd">192.168.104.126</string>
-    <string name="Keterangan">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo
-        d tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad
-        minim veniam, </string>
+    <string name="ipAdd">172.16.100.141</string>
+    <string name="Keterangan">Isi keterangan tentang rumah anda</string>
 </resources>
