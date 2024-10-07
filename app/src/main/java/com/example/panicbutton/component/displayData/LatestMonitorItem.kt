@@ -1,4 +1,4 @@
-package com.example.panicbutton.component
+package com.example.panicbutton.component.displayData
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
@@ -23,8 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,22 +33,15 @@ import androidx.compose.ui.unit.sp
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.navigation.NavController
-import com.example.panicbutton.viewmodel.PanicButton
 import kotlinx.coroutines.delay
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.panicbutton.viewmodel.PanicButtonData
 
 @Composable
 fun LatestMonitorItem(
     modifier: Modifier = Modifier,
     viewModel: ViewModel,
-    log: PanicButtonData,
-    vModel: PanicButton = viewModel(),
     navController: NavController
 ) {
     val monitoringData by viewModel.latestMonitor.observeAsState(emptyList())
-    val btnSelesai by remember { mutableStateOf(vModel.isLogCompleted(log.id)) }
-
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -140,7 +129,7 @@ fun LatestMonitorItem(
                                 .padding(end = 24.dp)
                         )
                         Spacer(modifier = Modifier.matchParentSize())
-                        if (btnSelesai) Image(
+                        if (log.status == "selesai") Image(
                             painter = painterResource(id = R.drawable.ic_done),
                             contentDescription = "ic_done",
                             modifier
@@ -150,7 +139,7 @@ fun LatestMonitorItem(
                             painter = painterResource(id = R.drawable.ic_process),
                             contentDescription = "ic_done",
                             modifier
-                                .size(20.dp)
+                                .size(24.dp)
                                 .align(Alignment.CenterEnd)
                         )
                     }

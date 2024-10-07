@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.screens
 
 import android.content.Context
 import android.net.Uri
@@ -23,11 +23,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -59,7 +56,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.request.CachePolicy
-import com.example.panicbutton.component.KeteranganUser
+import com.example.panicbutton.component.displayData.KeteranganUser
 import kotlinx.coroutines.delay
 
 @Composable
@@ -115,7 +112,7 @@ fun UserProfileScreen(
                     }
                 }
             }
-            delay(20000)
+            delay(200000)
         }
     }
 

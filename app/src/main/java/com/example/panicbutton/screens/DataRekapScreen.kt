@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,10 +32,10 @@ import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.panicbutton.component.DataRekapItem
-import com.example.panicbutton.component.FilterPrioritas
-import com.example.panicbutton.component.FilterWaktu
-import com.example.panicbutton.component.SearchDetailRekap
+import com.example.panicbutton.component.displayData.DataRekapItem
+import com.example.panicbutton.component.button.FilterPrioritas
+import com.example.panicbutton.component.button.FilterWaktu
+import com.example.panicbutton.component.button.SearchDetailRekap
 import java.text.SimpleDateFormat
 import java.util.Locale
 

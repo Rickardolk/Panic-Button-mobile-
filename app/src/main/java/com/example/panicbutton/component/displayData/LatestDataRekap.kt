@@ -1,4 +1,4 @@
-package com.example.panicbutton.component
+package com.example.panicbutton.component.displayData
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween

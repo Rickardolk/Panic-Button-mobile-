@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.screens
 
 import android.content.Context
 import android.net.Uri
@@ -25,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,9 +46,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import coil.request.CachePolicy
 import com.example.panicbutton.R
-import com.example.panicbutton.component.LogOutIcon
-import com.example.panicbutton.component.ToggleSwitch
-import com.example.panicbutton.component.UserHistory
+import com.example.panicbutton.component.button.LogOutIcon
+import com.example.panicbutton.component.button.ToggleSwitch
+import com.example.panicbutton.component.displayData.UserHistory
 import com.example.panicbutton.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 
@@ -57,7 +56,6 @@ import kotlinx.coroutines.delay
 fun UserDashboard(
     modifier: Modifier = Modifier,
     context: Context,
-    snackbarHostState: SnackbarHostState,
     navController: NavController,
     viewModel: ViewModel
 ) {
@@ -237,7 +235,7 @@ fun UserDashboard(
                     text = "Gunakan tombol hanya untuk keadaan darurat atau gangguan lainnya",
                     color = Color.White)
             }
-            ToggleSwitch(snackbarHostState = snackbarHostState)
+            ToggleSwitch()
             Column(
                 modifier
                     .fillMaxSize()
@@ -261,7 +259,9 @@ fun UserDashboard(
                 )
                 LazyColumn{
                     items(rekapData) { log ->
-                        UserHistory( log = log)
+                        UserHistory(
+                            log = log
+                            )
                     }
                 }
             }

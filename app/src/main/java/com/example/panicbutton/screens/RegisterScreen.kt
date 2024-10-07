@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.panicbutton.R
-import com.example.panicbutton.component.OutlinedTextFieldPass
+import com.example.panicbutton.component.button.OutlinedTextFieldPass
 import com.example.panicbutton.viewmodel.ViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

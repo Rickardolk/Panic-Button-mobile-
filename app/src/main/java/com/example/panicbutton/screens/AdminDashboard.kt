@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,8 +34,8 @@ import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.panicbutton.component.LatestMonitorItem
-import com.example.panicbutton.component.MonitorItem
+import com.example.panicbutton.component.displayData.LatestMonitorItem
+import com.example.panicbutton.component.displayData.MonitorItem
 import kotlinx.coroutines.delay
 
 @Composable
@@ -103,9 +103,8 @@ fun AdminDashboard(
                     color = colorResource(id = R.color.primary)
                 )
             }
-            monitor.forEach{ log->
+            monitor.forEach{ _->
                 LatestMonitorItem(
-                    log = log,
                     navController = navController,
                     viewModel = viewModel
                 )
@@ -137,5 +136,7 @@ fun AdminDashboard(
 @Preview(showBackground = true)
 @Composable
 private fun Liat() {
-    AdminDashboard(navController = rememberNavController())
+    AdminDashboard(
+        navController = rememberNavController(),
+    )
 }

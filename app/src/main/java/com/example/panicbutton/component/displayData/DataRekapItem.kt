@@ -1,6 +1,7 @@
-package com.example.panicbutton.component
+package com.example.panicbutton.component.displayData
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,22 +23,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.PanicButtonData
 
 @Composable
-fun UserHistory(
+fun DataRekapItem(
+    log: PanicButtonData,
     modifier: Modifier = Modifier,
-    log: PanicButtonData
+    navController: NavController
 ) {
-
     Card(
         modifier
-            .padding(horizontal = 24.dp)
+            .clickable { navController.navigate("detail_log_screen/${log.nomor_rumah}") }
             .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(bottom = 8.dp),
-        colors = CardDefaults.cardColors(
+            .fillMaxWidth(),
+        colors = if (log.status == "selesai") CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.background_card)
+        ) else CardDefaults.cardColors(
             containerColor = Color.White
         ),
         elevation = CardDefaults.cardElevation(4.dp)

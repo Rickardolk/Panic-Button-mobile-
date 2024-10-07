@@ -1,4 +1,4 @@
-package com.example.panicbutton.screen
+package com.example.panicbutton.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,7 +38,7 @@ import androidx.navigation.NavController
 import com.example.panicbutton.R
 import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.panicbutton.component.OutlinedTextFieldPass
+import com.example.panicbutton.component.button.OutlinedTextFieldPass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -150,3 +150,12 @@ fun LoginScreen(
         }
     }
 }
+
+
+
+
+
+
+
+
+

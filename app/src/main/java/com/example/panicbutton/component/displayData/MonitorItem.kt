@@ -1,4 +1,4 @@
-package com.example.panicbutton.component
+package com.example.panicbutton.component.displayData
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,8 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +37,6 @@ import com.example.panicbutton.viewmodel.ViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.panicbutton.viewmodel.PanicButton
 import com.example.panicbutton.viewmodel.PanicButtonData
 
 @Composable
@@ -47,11 +44,9 @@ fun MonitorItem(
     modifier: Modifier = Modifier,
     viewModel: ViewModel = viewModel(),
     log: PanicButtonData,
-    vModel: PanicButton = viewModel(),
     navController: NavController
 ) {
     val monitoringData by viewModel.panicButtonData.observeAsState(emptyList())
-    val btnSelesai by remember {mutableStateOf(vModel.isLogCompleted(log.id))}
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -82,7 +77,7 @@ fun MonitorItem(
                     .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 20.dp),
                 contentAlignment = Alignment.Center
             ) {
-                if (btnSelesai) Image(
+                if (log.status == "selesai") Image(
                     painter = painterResource(id = R.drawable.ic_done),
                     contentDescription = "ic_done",
                     modifier

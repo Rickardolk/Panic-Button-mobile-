@@ -1,4 +1,4 @@
-package com.example.panicbutton.component
+package com.example.panicbutton.component.button
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size

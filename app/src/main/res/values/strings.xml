@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Panic Button</string>
-    <string name="ipAdd">172.16.100.141</string>
+    <string name="ipAdd">172.16.100.191</string>
     <string name="Keterangan">Isi keterangan tentang rumah anda</string>
 </resources>

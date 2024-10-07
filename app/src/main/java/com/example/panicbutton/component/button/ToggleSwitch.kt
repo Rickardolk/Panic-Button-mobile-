@@ -1,5 +1,4 @@
-package com.example.panicbutton.component
-
+package com.example.panicbutton.component.button
 
 import android.content.Context
 import android.util.Log
@@ -15,12 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -41,20 +38,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.panicbutton.viewmodel.PanicButton
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.panicbutton.R
 import com.example.panicbutton.notiification.sendNotification
+import com.example.panicbutton.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToggleSwitch(
-    snackbarHostState : SnackbarHostState,
-    viewModel: PanicButton = viewModel()
+    viewModel: ViewModel = viewModel()
 ) {
     var isOn by remember { mutableStateOf(false) }
-    var isLoading by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var userInput by remember { mutableStateOf("") }
     var selectedPriority by remember {mutableStateOf("")}
@@ -71,13 +66,18 @@ fun ToggleSwitch(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(50.dp)
-                    .padding(bottom = 16.dp)
-            )
+        LaunchedEffect(key1 = isOn) {
+            if (isOn) {
+                delay(15000)
+                isOn = false
+                if (!nomorRumah.isNullOrEmpty()) {
+                    viewModel.toggleDevice(context,isOn, nomorRumah,"","")
+                } else {
+                    Log.e("toggleSwitch", "Nomor rumah is null or empty")
+                }
+            }
         }
+
         Switch(
             checked = isOn,
             onCheckedChange = { checked ->
@@ -85,14 +85,10 @@ fun ToggleSwitch(
                     showDialog = true
                 } else {
                     isOn = false
-                    isLoading = true
                     if (!nomorRumah.isNullOrEmpty()) {
-                        viewModel.toggleDevice(isOn, nomorRumah,"", "", snackbarHostState) {
-                            isLoading = false
-                        }
+                        viewModel.toggleDevice(context, isOn, nomorRumah,"", "")
                     } else {
                         Log.e("ToggleSwitch", "Nomor rumah is null or empty")
-                        isLoading = false
                     }
                 }
             },
@@ -126,8 +122,7 @@ fun ToggleSwitch(
             ),
             modifier = Modifier
                 .scale(1.8f)
-                .padding(20.dp),
-            enabled = !isLoading
+                .padding(20.dp)
         )
     }
     if (showDialog) {
@@ -194,24 +189,22 @@ fun ToggleSwitch(
                         } else {
                             showError = false
                             isOn = true
-                            isLoading = true
                             showDialog = false
                             if (!nomorRumah.isNullOrEmpty()) {
                                 viewModel.toggleDevice(
+                                    context,
                                     isOn,
                                     nomorRumah,
                                     userInput,
-                                    selectedPriority,
-                                    snackbarHostState
-                                ) {
-                                    isLoading = false
-                                    sendNotification(context, "PANIC BUTTON", "Buzzer Telah Berbunyi")
-                                    userInput = ""
-                                    selectedPriority = ""
-                                }
+                                    selectedPriority
+                                )
+                                sendNotification(
+                                    context = context,
+                                    title = "Panic Button",
+                                    message = "Buzzer telah di bunyikan oleh nomor rumah $nomorRumah dengan prioritas $selectedPriority, pesan: $userInput"
+                                )
                             } else {
                                 Log.e("ToggleSwitch", "Nomor rumah is null or empty")
-                                isLoading = false
                             }
                         }
                     },
@@ -241,22 +234,6 @@ fun ToggleSwitch(
                 }
             }
         )
-    }
-
-    LaunchedEffect(key1 = isOn) {
-        if (isOn) {
-            delay(15000)
-            isOn = false
-            isLoading = true
-            if (!nomorRumah.isNullOrEmpty()) {
-                viewModel.toggleDevice(isOn, nomorRumah,"","", snackbarHostState) {
-                    isLoading = false
-                }
-            } else {
-                Log.e("toggleSwitch", "Nomor rumah is null or empty")
-                isLoading = false
-            }
-        }
     }
 }
 

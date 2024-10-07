@@ -1,8 +1,7 @@
 package com.example.panicbutton
 
-import com.example.panicbutton.screen.DataRekapScreen
+import com.example.panicbutton.screens.DataRekapScreen
 import android.content.Context
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -11,13 +10,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.panicbutton.component.OnBoarding
-import com.example.panicbutton.screen.DetailRekapScreen2
-import com.example.panicbutton.screen.UserDashboard
-import com.example.panicbutton.screen.UserProfileScreen
-import com.example.panicbutton.screen.RegisterScreen
-import com.example.panicbutton.screen.AdminDashboard
-import com.example.panicbutton.screen.LoginScreen
+import com.example.panicbutton.component.displayData.OnBoarding
+import com.example.panicbutton.screens.DetailRekapScreen
+import com.example.panicbutton.screens.UserDashboard
+import com.example.panicbutton.screens.UserProfileScreen
+import com.example.panicbutton.screens.RegisterScreen
+import com.example.panicbutton.screens.AdminDashboard
+import com.example.panicbutton.screens.LoginScreen
 import com.example.panicbutton.viewmodel.ViewModel
 
 @Composable
@@ -71,7 +70,6 @@ fun MyApp() {
         }
         composable("home") {
             UserDashboard(
-                snackbarHostState = SnackbarHostState(),
                 navController = navController,
                 context = context,
                 viewModel = viewModel
@@ -79,7 +77,7 @@ fun MyApp() {
         }
         composable("detail_log_screen/{nomorRumah}") {backStackEntry ->
             val nomorRumah = backStackEntry.arguments?.getString("nomorRumah")
-            DetailRekapScreen2(
+            DetailRekapScreen(
                 nomorRumah = nomorRumah ?:"",
                 viewModel = viewModel,
                 context = context,
