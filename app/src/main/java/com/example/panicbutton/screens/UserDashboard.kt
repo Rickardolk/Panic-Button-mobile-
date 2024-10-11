@@ -1,8 +1,10 @@
 package com.example.panicbutton.screens
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -59,6 +61,10 @@ fun UserDashboard(
     navController: NavController,
     viewModel: ViewModel
 ) {
+    BackHandler {
+        (context as? Activity)?.finish()
+    }
+
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val nomorRumah = sharedPref.getString("nomorRumah", "Nomor rumah tidak ditemukan")
     val namaUser = sharedPref.getString("namaUser", "Nama user tidak ditemukan")

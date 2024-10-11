@@ -83,7 +83,8 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = nomorRumah,
                     onValueChange = {setNomorRumah(it)},
-                    label = { Text(text = "Nomor Rumah")},
+                    label = {
+                        Text(text = "Nomor Rumah")},
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,

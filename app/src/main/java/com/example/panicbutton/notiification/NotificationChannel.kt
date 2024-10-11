@@ -8,9 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.example.panicbutton.MainActivity
 import com.example.panicbutton.R
 
@@ -66,6 +68,13 @@ fun sendNotification(context: Context, title: String, message: String) {
         }
         notify(System.currentTimeMillis().toInt(), builder.build())
     }
+}
+
+fun openNOtificationSettings(context: Context) {
+    val intent = Intent()
+    intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+    intent.putExtra(Settings.EXTRA_APP_PACKAGE, "com.example.panicbutton")
+    context.startActivity(intent)
 }
 
 

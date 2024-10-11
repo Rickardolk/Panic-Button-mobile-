@@ -1,8 +1,11 @@
 package com.example.panicbutton.viewmodel
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -22,10 +25,12 @@ import org.json.JSONObject
 import java.io.IOException
 import android.util.Base64
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.io.Resources
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
+import java.util.Locale
 
 
 class ViewModel : ViewModel() {
@@ -34,6 +39,7 @@ class ViewModel : ViewModel() {
     private val _panicButtonData = MutableLiveData<List<PanicButtonData>>()
     private val _latestMonitor = MutableLiveData<List<PanicButtonData>>()
     private val _status = MutableLiveData<Boolean>()
+    private val _languageChanged = MutableLiveData<Boolean>()
 
     val panicButtonData: LiveData<List<PanicButtonData>> = _panicButtonData
     val latestMonitor: LiveData<List<PanicButtonData>> = _latestMonitor
@@ -42,6 +48,7 @@ class ViewModel : ViewModel() {
     val errorMessage = MutableLiveData<String>()
     val keterangan = MutableLiveData<String>()
     val getRekapData = MutableLiveData<List<GetDetailRekap>>()
+    val languageChanged: LiveData<Boolean> get() = _languageChanged
 
 
     // function utk registrasi
@@ -76,7 +83,7 @@ class ViewModel : ViewModel() {
     @SuppressLint("SuspiciousIndentation")
     fun login(nomorRumah: String, sandi: String, context: Context, navController: NavController) {
         if (nomorRumah.isBlank() || sandi.isBlank()) {
-            Toast.makeText(context, "MAsuk gagal: Lengkapi data di atas", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "GAgal Login: Lengkapi data di atas", Toast.LENGTH_SHORT).show()
             return
         }
         val call = apiService.loginService(nomorRumah, sandi)
@@ -84,7 +91,8 @@ class ViewModel : ViewModel() {
         val admin_sandi = "admin"
 
             if (nomorRumah == admin_norum && sandi == admin_sandi) {
-                Toast.makeText(context, "Login sebagai admin berhasil!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login sebagai admin", Toast.LENGTH_SHORT).show()
+                saveAdminLogin(context)
                 navController.navigate("admin") {
                     popUpTo("login") { inclusive = true }
                 }
@@ -99,7 +107,6 @@ class ViewModel : ViewModel() {
                 if (jsonResponse?.contains("success") == true) {
                     val jsonObject = JSONObject(jsonResponse)
                     val userName = jsonObject.getString("nama")
-                    Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT).show()
                     saveUserLogin(context, nomorRumah, userName)
                     navController.navigate("home")
                 } else {
@@ -112,11 +119,20 @@ class ViewModel : ViewModel() {
         })
     }
 
+    private fun saveAdminLogin(context: Context) {
+        val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("isAdmin", true)
+            apply()
+        }
+    }
+
     private fun saveUserLogin(context: Context, nomorRumah: String, namaUser: String) {
         val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("nomorRumah", nomorRumah)
             putString("namaUser", namaUser)
+            putBoolean("isAdmin", false)
             apply()
         }
     }
@@ -124,8 +140,13 @@ class ViewModel : ViewModel() {
     fun checkUserLogin(context: Context, navController: NavController) {
         val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
         val nomorRumah = sharedPref.getString("nomorRumah", null)
+        val isAdmin = sharedPref.getBoolean("isAdmin", false)
 
-        if (nomorRumah != null) {
+        if (isAdmin) {
+            navController.navigate("admin") {
+                popUpTo("login") {inclusive = true}
+            }
+        } else if (nomorRumah != null) {
             navController.navigate("home") {
                 popUpTo("login") { inclusive = true }
             }
@@ -191,20 +212,23 @@ class ViewModel : ViewModel() {
     }
 
     fun monitorLatest() {
-        val call = apiService.latestMonitorService()
-
-        call.enqueue(object : Callback<List<PanicButtonData>> {
-            override fun onResponse(call: Call<List<PanicButtonData>>, response: Response<List<PanicButtonData>>) {
-                if (response.isSuccessful) {
+        viewModelScope.launch {
+            try {
+                isLoading.value = true
+                val response = withContext(Dispatchers.IO) {
+                    apiService.latestMonitorService().execute()
+                }
+                if (response.isSuccessful){
                     _latestMonitor.postValue(response.body())
                 } else {
-                    Log.e("MonitoringError", "Error: ${response.code()} - ${response.message()}")
+                    Log.e("monitorLatest", "error: ${response.errorBody()?.string()}")
                 }
+            } catch (e: Exception) {
+                Log.e("monitorLatest", "gagal mengambil data", e)
+            } finally {
+                isLoading.value = false
             }
-            override fun onFailure(call: Call<List<PanicButtonData>>, t: Throwable) {
-                Log.e("MonitoringError", "Failed to fetch data: ${t.localizedMessage}")
-            }
-        })
+        }
     }
 
     // fun data rekap
@@ -470,6 +494,38 @@ class ViewModel : ViewModel() {
                 isLoading.value = false
             }
         }
+    }
+
+    fun setLanguage(context: Context, languageCode: String){
+        Log.d("ViewModel", "setLanguage called with code: $languageCode")
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+       val configuration = Configuration(context.resources.configuration)
+        configuration.setLocale(locale)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.createConfigurationContext(configuration)
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
+        }
+
+        val prefs = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        with(prefs.edit()) {
+            putString("App_Lang", languageCode)
+            apply()
+        }
+        Log.d("LanguageChange", "Language set to: $languageCode")
+
+        _languageChanged.value = true
+    }
+
+    fun loadLanguage(context: Context) {
+        Log.d("ViewModel", "loadLanguage called")
+        val prefs = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val languageCode = prefs.getString("App_Lang", "id")
+        setLanguage(context, languageCode ?: "id")
     }
 }
 

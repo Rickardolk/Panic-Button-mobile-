@@ -1,7 +1,11 @@
 package com.example.panicbutton.screens
 
+import android.app.Activity
+import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +25,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -34,6 +39,8 @@ import com.example.panicbutton.viewmodel.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.panicbutton.component.button.LogOutIcon
+import com.example.panicbutton.component.button.LogOutIconAdmin
 import com.example.panicbutton.component.displayData.LatestMonitorItem
 import com.example.panicbutton.component.displayData.MonitorItem
 import kotlinx.coroutines.delay
@@ -42,8 +49,12 @@ import kotlinx.coroutines.delay
 fun AdminDashboard(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: ViewModel = viewModel()
+    viewModel: ViewModel = viewModel(),
+    context: Context
 ) {
+    BackHandler {
+        (context as? Activity)?. finish()
+    }
     val monitor by viewModel.panicButtonData.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
@@ -59,17 +70,28 @@ fun AdminDashboard(
             .background(colorResource(id = R.color.primary)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 40.dp),
-            textAlign = TextAlign.Center,
-            text = "INFORMASI\nDARURAT",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            style = TextStyle(lineHeight = 40.sp)
-        )
+        Box(
+            modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(top = 40.dp)
+                    .align(Alignment.Center),
+                textAlign = TextAlign.Center,
+                text = "INFORMASI\nDARURAT",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                style = TextStyle(lineHeight = 40.sp)
+            )
+            LogOutIconAdmin(
+                modifier = Modifier
+                    .padding(end = 24.dp),
+                navController = navController
+            )
+        }
         Spacer(modifier = Modifier.height(28.dp))
 
         monitor.forEach{ log ->
@@ -138,5 +160,6 @@ fun AdminDashboard(
 private fun Liat() {
     AdminDashboard(
         navController = rememberNavController(),
+        context = LocalContext.current
     )
 }

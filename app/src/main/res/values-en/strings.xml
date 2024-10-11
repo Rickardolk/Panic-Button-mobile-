@@ -14,21 +14,22 @@
     </string>
 
 
-    <string name="isiKeterangan">Isi keterangan tentang rumah anda</string>
-    <string name="keterangan">Keterangan</string>
+
+    <string name="isiKeterangan">Provide information about your house</string>
+    <string name="keterangan">Information</string>
     <string name="nama">Nama</string>
-    <string name="nomorRumah">Nomor Rumah</string>
-    <string name="sandi">Sandi</string>
-    <string name="belumPunyaAkun">Belum memiliki akun?</string>
-    <string name="sudahPunyaAkun">Sudah memiliki akun?</string>
-    <string name="daftar">Daftar</string>
-    <string name="selamatDatang">Selamat Datang</string>
-    <string name="nomorRumahAnda">Nomor rumah anda:</string>
-    <string name="peringatan">Peringatan</string>
-    <string name="gunakanTombol">Gunakan tombol hanya untuk keadaan darurat atau gangguan lainnya</string>
-    <string name="riwayat">Riwayat</string>
-    <string name="pengaturan">Pengaturan</string>
-    <string name="bahasa">Bahasa</string>
-    <string name="notifikasi">Notifikasi</string>
-    <string name="bantuan">Bantuan</string>
+    <string name="nomorRumah">House Number</string>
+    <string name="sandi">Password</string>
+    <string name="belumPunyaAkun">Don\'t have an account yet?</string>
+    <string name="sudahPunyaAkun">Already have an account?</string>
+    <string name="daftar">Register</string>
+    <string name="selamatDatang">Welcome</string>
+    <string name="nomorRumahAnda">Your house number:</string>
+    <string name="peringatan">Warning</string>
+    <string name="gunakanTombol">Use the button only for emergencies or other disturbances</string>
+    <string name="riwayat">History</string>
+    <string name="pengaturan">Setting</string>
+    <string name="bahasa">Language</string>
+    <string name="notifikasi">Notification</string>
+    <string name="bantuan">Help</string>
 </resources>

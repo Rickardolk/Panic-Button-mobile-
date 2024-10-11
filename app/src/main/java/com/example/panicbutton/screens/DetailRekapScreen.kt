@@ -60,6 +60,7 @@ fun DetailRekapScreen(
 ) {
     val detailLogData by viewModel.panicButtonData.observeAsState(emptyList())
     val rekapData by viewModel.getRekapData.observeAsState(emptyList())
+    val unit = detailLogData.filter { it.nomor_rumah == nomorRumah }
     val ipAdd = context.getString(R.string.ipAdd)
     val baseUrl = "http://$ipAdd/api/"
     val scroll = rememberScrollState()
@@ -245,7 +246,7 @@ fun DetailRekapScreen(
                             .padding(horizontal = 26.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(detailLogData) { log ->
+                        items(unit) { log ->
                             DetailRekapItem(
                                 log = log,
                                 viewModel = viewModel

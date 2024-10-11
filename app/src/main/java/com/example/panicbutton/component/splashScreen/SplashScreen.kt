@@ -1,5 +1,6 @@
 package com.example.panicbutton.component.splashScreen
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -39,6 +40,7 @@ fun SplashScreen() {
         startAnimation = true
         delay(3000)
         context.startActivity(Intent(context, MainActivity::class.java))
+        (context as? Activity)?.finish()
     }
 
     Splash(alpha = alphaAnim.value)
@@ -62,7 +64,7 @@ fun Splash(
                 painter = painterResource(id = R.drawable.logo_lifemedia),
                 contentDescription = "logo_lifemedia",
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(230.dp)
                     .alpha(alpha)
             )
         }

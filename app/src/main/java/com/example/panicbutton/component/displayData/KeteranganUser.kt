@@ -54,7 +54,7 @@ fun KeteranganUser(
 ) {
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val nomorRumah = sharedPref.getString("nomorRumah", "norum tidak ada")
-    val defaultText = stringResource(id = R.string.Keterangan)
+    val defaultText = stringResource(id = R.string.isiKeterangan)
     val textScroll = rememberScrollState()
     val keteranganUser by viewModel.keterangan.observeAsState(defaultText)
     var userText by remember { mutableStateOf(defaultText)}

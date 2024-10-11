@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.displayData.OnBoarding
+import com.example.panicbutton.design.BantuanScreen
 import com.example.panicbutton.screens.DetailRekapScreen
 import com.example.panicbutton.screens.UserDashboard
 import com.example.panicbutton.screens.UserProfileScreen
@@ -58,7 +59,8 @@ fun MyApp() {
         }
         composable("admin"){
             AdminDashboard(
-                navController = navController
+                navController = navController,
+                context = context
             )
         }
         composable("data_rekap") {
@@ -87,6 +89,11 @@ fun MyApp() {
         composable("user_profile") {
             UserProfileScreen(
                 context = context,
+                navController = navController
+            )
+        }
+        composable("bantuan") {
+            BantuanScreen(
                 navController = navController
             )
         }

@@ -36,19 +36,24 @@ import kotlinx.coroutines.launch
 fun OnBoarding(navController: NavController) {
     val items = listOf(
         OnBoardingData(
-            R.raw.error_wifi,
-            "Error Wifi",
-            "Jika harimu berat, jangan lupa untuk makan dan cek koneksi wifimu"
+            R.raw.problem,
+            "Masalah",
+            "Jika anda mendapat masalah di rumah anda seperti kemalingan atau apapun masalahnya yang membutuhkan bantuan sesegera mungkin"
         ),
         OnBoardingData(
-            R.raw.click_button,
+            R.raw.confused,
+            "Bingung",
+            "Tapi anda bingung, siapa yang harus dihubungi untuk mengatasi masalah tersebut"
+        ),
+        OnBoardingData(
+            R.raw.clicked,
             "Aktifkan Panic Button",
-            "Aktifkan Panic Button dan rasakan sensasi dari alunan musik nan merdu yang akan membuatmu ketagihan"
+            "Tenang saja! anda bisa memanggil security hanya dengan sekali klik"
         ),
         OnBoardingData(
-            R.raw.masalah_diatasi,
+            R.raw.problem_solved,
             "Masalah Diatasi",
-            "Tenang saja, jika harimu berat! itu masalahmu... Bukan masalah kami!"
+            "Setelah mendapat pesan darurat, security akan sesegera mungkin ke rumah anda untuk mengatasi masalah"
         )
     )
 
@@ -93,7 +98,7 @@ fun OnBoardingPager(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    loaderIntro(
+                    LoaderIntro(
                         modifier = Modifier
                             .size(200.dp)
                             .fillMaxWidth()
@@ -111,7 +116,7 @@ fun OnBoardingPager(
                     Text(
                         text = items[page].desc,
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(top = 40.dp),
+                        modifier = Modifier.padding(top = 40.dp, start = 8.dp, end = 8.dp),
                         textAlign = TextAlign.Center
                     )
                 }
@@ -125,7 +130,8 @@ fun OnBoardingPager(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .padding(bottom = 70.dp, start = 24.dp, end = 24.dp),
+                .padding(bottom = 70.dp, start = 24.dp, end = 24.dp)
+                .background(Color.White),
             contentAlignment = Alignment.BottomCenter
         ) {
             Row(
@@ -170,7 +176,10 @@ fun OnBoardingPager(
 }
 
 @Composable
-fun loaderIntro(modifier: Modifier = Modifier, image: Int) {
+fun LoaderIntro(
+    modifier: Modifier = Modifier,
+    image: Int
+) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(image))
 
     LottieAnimation(
@@ -204,22 +213,27 @@ fun DotsIndicator(
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
-fun view() {
+fun View() {
     val items = listOf(
         OnBoardingData(
-            R.raw.error_wifi,
-            "Error Wifi",
-            "Jika harimu berat, jangan lupa untuk makan dan cek koneksi wifimu"
+            R.raw.problem,
+            "Masalah",
+            "Jika anda mendapat masalah di rumah anda seperti kemalingan atau apapun masalahnya yang membutuhkan bantuan sesegera mungkin"
         ),
         OnBoardingData(
-            R.raw.click_button,
+            R.raw.confused,
+            "Bingung",
+            "Tapi anda bingung, siapa yang harus dihubungi untuk mengatasi masalah tersebut"
+        ),
+        OnBoardingData(
+            R.raw.clicked,
             "Aktifkan Panic Button",
-            "Aktifkan Panic Button dan rasakan sensasi dari alunan musik nan merdu yang akan membuatmu ketagihan"
+            "Tenang saja! anda bisa memanggil security hanya dengan sekali klik"
         ),
         OnBoardingData(
-            R.raw.masalah_diatasi,
+            R.raw.problem_solved,
             "Masalah Diatasi",
-            "Tenang saja, jika harimu berat! itu masalahmu... Bukan masalah kami!"
+            "Setelah mendapat pesan darurat, security akan sesegera mungkin ke rumah anda untuk mengatasi masalah"
         )
     )
 

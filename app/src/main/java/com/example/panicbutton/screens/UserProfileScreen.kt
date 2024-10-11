@@ -45,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,7 +57,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.request.CachePolicy
+import com.example.panicbutton.component.button.TButtonLanguage
 import com.example.panicbutton.component.displayData.KeteranganUser
+import com.example.panicbutton.notiification.openNOtificationSettings
 import kotlinx.coroutines.delay
 
 @Composable
@@ -66,6 +69,7 @@ fun UserProfileScreen(
     context: Context,
     navController: NavController
 ) {
+    val selectedLanguage = remember {mutableStateOf("id")}
     val sharedPref = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
     val userName = sharedPref.getString("namaUser", "nama user tidak ditemukan")
     val nomorRumah = sharedPref.getString("nomorRumah", "norum tidak ada")
@@ -114,6 +118,10 @@ fun UserProfileScreen(
             }
             delay(200000)
         }
+    }
+
+    LaunchedEffect(selectedLanguage.value) {
+        viewModel.loadLanguage(context)
     }
 
     Box(
@@ -217,7 +225,7 @@ fun UserProfileScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Nomor Rumah Anda:",
+                            text = context.getString(R.string.nomorRumahAnda),
                             fontSize = 12.sp
                         )
                         Text(
@@ -276,7 +284,7 @@ fun UserProfileScreen(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 24.dp),
-                    text = "Keterangan",
+                    text = stringResource(id = R.string.keterangan),
                     fontSize = 14.sp,
                     color = Color.White
                 )
@@ -293,34 +301,16 @@ fun UserProfileScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "Pengaturan",
+                        text = stringResource(id = R.string.pengaturan),
                         fontSize = 14.sp,
                         color = Color.White
                     )
-                    TextButton(
-                        modifier = Modifier,
-                        onClick = { /*TODO*/ },
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(id = R.color.ic_back_color)
-                        )
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_language),
-                            contentDescription = "ic_language",
-                            tint = Color.White
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "Bahasa",
-                            color = Color.White,
-                            fontSize = 12.sp
-                        )
+                    TButtonLanguage(viewModel) { code ->
+                        selectedLanguage.value = code
                     }
                     TextButton(
                         modifier = Modifier,
-                        onClick = { /*TODO*/ },
+                        onClick = { openNOtificationSettings(context) },
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorResource(id = R.color.ic_back_color)
@@ -334,14 +324,14 @@ fun UserProfileScreen(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "Notifikasi",
+                            text = stringResource(id = R.string.notifikasi),
                             color = Color.White,
                             fontSize = 12.sp
                         )
                     }
                     TextButton(
                         modifier = Modifier,
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate("bantuan") },
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorResource(id = R.color.ic_back_color)
@@ -355,7 +345,7 @@ fun UserProfileScreen(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "Bantuan",
+                            text = stringResource(id = R.string.bantuan),
                             color = Color.White,
                             fontSize = 12.sp
                         )

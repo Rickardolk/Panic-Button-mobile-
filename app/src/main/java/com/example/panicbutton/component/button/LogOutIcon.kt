@@ -3,6 +3,7 @@ package com.example.panicbutton.component.button
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -48,6 +49,65 @@ fun LogOutIcon(
             painter = painterResource(id = R.drawable.ic_logout),
             contentDescription = "icon logout",
             tint = Color.White
+        )
+    }
+    if (showKeluarDialog) {
+        AlertDialog(
+            onDismissRequest = { showKeluarDialog},
+            title = { Text( "Konfirmasi") },
+            text = { Text("Apakah Anda yakin ingin keluar?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showKeluarDialog = false
+                        viewModel.logout(context, navController)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.font)
+                    )
+                ) { Text("Ya")
+
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showKeluarDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.font))
+                ) {
+                    Text("Tidak")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun LogOutIconAdmin(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
+    var showKeluarDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val viewModel = ViewModel()
+
+    Button(
+        onClick = { showKeluarDialog = true},
+        modifier
+            .size(36.dp)
+            .clip(CircleShape),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(id = R.color.ic_back_color),
+            contentColor = Color.White
+
+        ),
+        contentPadding = PaddingValues(2.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_logout),
+            contentDescription = "icon logout",
+            tint = Color.White,
+            modifier = Modifier.size(24.dp)
         )
     }
     if (showKeluarDialog) {
