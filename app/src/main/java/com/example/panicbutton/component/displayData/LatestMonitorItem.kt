@@ -79,7 +79,8 @@ fun LatestMonitorItem(
                         Text(
                             text = log.nomor_rumah,
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.font2)
                         )
                         Column(
                             modifier

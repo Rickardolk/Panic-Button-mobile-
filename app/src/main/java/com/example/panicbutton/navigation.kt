@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.panicbutton.component.displayData.OnBoarding
-import com.example.panicbutton.design.BantuanScreen
+import com.example.panicbutton.screens.BantuanScreen
 import com.example.panicbutton.screens.DetailRekapScreen
 import com.example.panicbutton.screens.UserDashboard
 import com.example.panicbutton.screens.UserProfileScreen

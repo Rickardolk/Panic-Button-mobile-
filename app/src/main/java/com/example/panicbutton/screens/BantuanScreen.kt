@@ -1,4 +1,4 @@
-package com.example.panicbutton.design
+package com.example.panicbutton.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,9 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +40,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.decode.ImageSource
 import com.example.panicbutton.R
 
 @Composable
@@ -215,7 +212,7 @@ fun BantuanScreen(
                 Text(
                     text = "Panduan penggunaan",
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Bold
                 )
             },
             text = {
@@ -273,8 +270,7 @@ fun BantuanScreen(
             text = {
                 Text(
                     text = annotatedString,
-                    fontSize = 12.sp,
-                    color = colorResource(id = R.color.font2)
+                    fontSize = 12.sp
                 )
             }
         )
@@ -305,8 +301,7 @@ fun BantuanScreen(
             text = {
                 Text(
                     text = annotatedString2,
-                    fontSize = 12.sp,
-                    color = colorResource(id = R.color.font2)
+                    fontSize = 12.sp
                 )
             }
         )
@@ -331,8 +326,7 @@ fun BantuanScreen(
                 Text(
                     text = "Hubungi kami",
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(id = R.color.font2)
+                    fontWeight = FontWeight.Bold
                 )
             },
             text = {

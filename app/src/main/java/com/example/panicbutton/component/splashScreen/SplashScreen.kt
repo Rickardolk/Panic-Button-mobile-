@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.panicbutton.MainActivity
 import com.example.panicbutton.R
@@ -61,10 +62,10 @@ fun Splash(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.logo_lifemedia),
+                painter = painterResource(id = R.drawable.lifemedia_logo),
                 contentDescription = "logo_lifemedia",
                 modifier = Modifier
-                    .size(230.dp)
+                    .size(190.dp)
                     .alpha(alpha)
             )
         }
